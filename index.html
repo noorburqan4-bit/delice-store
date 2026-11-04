@@ -10,7 +10,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:#f7f9fc;color:var(--text);font-family:Tahoma,Arial,sans-serif}
 button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0;border-radius:10px;padding:11px 17px}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 15px}
 .primary{background:var(--blue);color:white}
 .secondary{background:#e8f2ff;color:var(--dark)}
 header{background:white;box-shadow:0 2px 15px #0b3b6810;position:sticky;top:0;z-index:10}
@@ -18,10 +18,10 @@ header{background:white;box-shadow:0 2px 15px #0b3b6810;position:sticky;top:0;z-
 .logo{font-size:29px;font-weight:900;color:var(--blue);letter-spacing:2px}
 .logo small{display:block;font-size:10px;letter-spacing:3px;color:#71849b;text-align:center}
 .actions{display:flex;gap:8px;align-items:center}
-.hero{max-width:1200px;margin:25px auto;padding:45px 35px;border-radius:22px;background:linear-gradient(115deg,#073c78,#1680d4);color:white;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden}
+.hero{max-width:1200px;margin:25px auto;padding:45px 35px;border-radius:22px;background:linear-gradient(115deg,#073c78,#1680d4);color:white;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .hero h1{font-size:clamp(27px,5vw,45px);margin:0 0 15px}
 .hero p{line-height:1.9;color:#e5f2ff}
-.hero-mark{font-size:90px;opacity:.18;font-weight:900}
+.hero-mark{font-size:75px;opacity:.2;font-weight:900}
 main{max-width:1200px;margin:30px auto;padding:0 18px}
 .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:25px 0}
 .section-head h2{margin:0;font-size:23px}
@@ -30,8 +30,7 @@ main{max-width:1200px;margin:30px auto;padding:0 18px}
 .cat{white-space:nowrap;background:white;border:1px solid #e0e8f1;color:#37516c}
 .cat.active{background:var(--blue);color:white}
 .products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-.card{background:white;border:1px solid #edf0f5;border-radius:16px;overflow:hidden;transition:.2s}
-.card:hover{transform:translateY(-3px);box-shadow:0 10px 25px #173b6012}
+.card{background:white;border:1px solid #edf0f5;border-radius:16px;overflow:hidden}
 .photo{height:210px;background:#f0f5fa;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .photo img{width:100%;height:100%;object-fit:contain}
 .info{padding:14px}
@@ -40,6 +39,8 @@ main{max-width:1200px;margin:30px auto;padding:0 18px}
 .price{color:var(--blue);font-weight:bold;font-size:19px;margin:12px 0}
 .card-buttons{display:flex;gap:7px}
 .card-buttons button{flex:1;font-size:12px;padding:10px 5px}
+.quantity-control{display:flex;align-items:center;gap:8px;margin:12px 0}
+.quantity-control input{width:75px;padding:8px;border:1px solid #dce5ef;border-radius:8px;text-align:center}
 .empty{background:white;padding:35px;text-align:center;border-radius:15px;color:#71849b;grid-column:1/-1}
 footer{text-align:center;padding:30px 15px;background:#082f59;color:#d9eaff;margin-top:55px;font-size:13px}
 .overlay{display:none;position:fixed;inset:0;background:#071c32a8;z-index:30;align-items:center;justify-content:center;padding:15px}
@@ -49,15 +50,15 @@ footer{text-align:center;padding:30px 15px;background:#082f59;color:#d9eaff;marg
 .field label{display:block;font-size:13px;margin-bottom:6px;color:#53677e}
 .field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid #dce4ed;border-radius:9px;background:white}
 .field textarea{min-height:75px}
-.modal-actions{display:flex;gap:8px;margin-top:15px}
-.modal-actions button{flex:1}
+.close{float:left;background:#f0f3f7}
 .admin-box{background:#f3f8ff;padding:14px;border-radius:12px;margin:12px 0}
 .admin-row{display:flex;justify-content:space-between;gap:8px;align-items:center;border-bottom:1px solid #e5ebf2;padding:10px 0;font-size:13px}
-.close{float:left;background:#f0f3f7}
 .cart-line{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #eee;padding:12px 0}
-.cart-line button{padding:5px 9px}
+.cart-line button{padding:6px 10px}
+.qty-buttons{display:flex;align-items:center;gap:7px}
+.qty-buttons button{padding:5px 10px;background:#e8f2ff;color:#08396d}
 @media(max-width:850px){.products{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){.top{padding:12px}.logo{font-size:24px}.hero{margin:15px;padding:28px 20px}.hero-mark{font-size:55px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.photo{height:155px}.info{padding:11px}.info h3{font-size:14px}.search{max-width:100%}.section-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.top{padding:12px}.logo{font-size:24px}.hero{margin:15px;padding:28px 20px}.hero-mark{font-size:45px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.photo{height:155px}.info{padding:11px}.info h3{font-size:14px}.search{max-width:100%}.section-head{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -94,19 +95,17 @@ footer{text-align:center;padding:30px 15px;background:#082f59;color:#d9eaff;marg
 
 <footer>DELICE © 2026 — جميع الحقوق محفوظة</footer>
 
-<!-- نافذة تسجيل الدخول -->
 <div class="overlay" id="loginModal">
  <div class="modal">
   <button class="close" onclick="closeModal('loginModal')">✕</button>
   <h2>دخول الإدارة</h2>
-  <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" placeholder="البريد الإلكتروني"></div>
-  <div class="field"><label>كلمة المرور</label><input id="password" type="password" placeholder="كلمة المرور"></div>
+  <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email"></div>
+  <div class="field"><label>كلمة المرور</label><input id="password" type="password"></div>
   <button class="primary" style="width:100%" onclick="login()">تسجيل الدخول</button>
-  <p id="loginMessage" style="font-size:13px"></p>
+  <p id="loginMessage"></p>
  </div>
 </div>
 
-<!-- لوحة الإدارة -->
 <div class="overlay" id="adminModal">
  <div class="modal">
   <button class="close" onclick="closeModal('adminModal')">✕</button>
@@ -119,24 +118,22 @@ footer{text-align:center;padding:30px 15px;background:#082f59;color:#d9eaff;marg
  </div>
 </div>
 
-<!-- إضافة أو تعديل منتج -->
 <div class="overlay" id="productModal">
  <div class="modal">
   <button class="close" onclick="closeModal('productModal')">✕</button>
   <h2 id="productFormTitle">إضافة منتج</h2>
   <input type="hidden" id="editId">
-  <div class="field"><label>اسم المنتج</label><input id="pName" placeholder="اسم المنتج"></div>
-  <div class="field"><label>القسم</label><input id="pCategory" placeholder="مثلاً: شوكولاتة"></div>
-  <div class="field"><label>السعر</label><input id="pPrice" type="number" min="0" step="0.01" placeholder="السعر"></div>
-  <div class="field"><label>وصف المنتج</label><textarea id="pDescription" placeholder="وصف مختصر للمنتج"></textarea></div>
+  <div class="field"><label>اسم المنتج</label><input id="pName"></div>
+  <div class="field"><label>القسم</label><input id="pCategory"></div>
+  <div class="field"><label>السعر</label><input id="pPrice" type="number" min="0" step="0.01"></div>
+  <div class="field"><label>وصف المنتج</label><textarea id="pDescription"></textarea></div>
   <div class="field"><label>صورة المنتج</label><input id="pImage" type="file" accept="image/png,image/jpeg,image/webp"></div>
   <div class="field"><label><input id="pActive" type="checkbox" checked style="width:auto"> عرض المنتج في المتجر</label></div>
   <button class="primary" style="width:100%" onclick="saveProduct()">حفظ المنتج</button>
-  <p id="saveMessage" style="font-size:13px"></p>
+  <p id="saveMessage"></p>
  </div>
 </div>
 
-<!-- تفاصيل المنتج -->
 <div class="overlay" id="detailModal">
  <div class="modal">
   <button class="close" onclick="closeModal('detailModal')">✕</button>
@@ -144,7 +141,6 @@ footer{text-align:center;padding:30px 15px;background:#082f59;color:#d9eaff;marg
  </div>
 </div>
 
-<!-- سلة المشتريات -->
 <div class="overlay" id="cartModal">
  <div class="modal">
   <button class="close" onclick="closeModal('cartModal')">✕</button>
@@ -159,19 +155,19 @@ footer{text-align:center;padding:30px 15px;background:#082f59;color:#d9eaff;marg
 </div>
 
 <script>
-const SUPABASE_URL = "https://grqceqdhjvfkcndshupu.supabase.co";
-const SUPABASE_KEY = "sb_publishable_hESgegG_7QZvZItMRsQfEg_SrE4wPvO";
-const ADMIN_UID = "ff1e5b12-7a35-487a-b9f1-be31f8f66347";
-const WHATSAPP_NUMBER = "970592841090";
-const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const SUPABASE_URL="https://grqceqdhjvfkcndshupu.supabase.co";
+const SUPABASE_KEY="sb_publishable_hESgegG_7QZvZItMRsQfEg_SrE4wPvO";
+const ADMIN_UID="ff1e5b12-7a35-487a-b9f1-be31f8f66347";
+const WHATSAPP_NUMBER="970592841090";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-let products = [];
-let selectedCategory = "الكل";
-let cart = [];
-let currentUser = null;
+let products=[];
+let selectedCategory="الكل";
+let cart=[];
+let currentUser=null;
 
 function safe(value){
- return String(value ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 function money(value){return Number(value||0).toLocaleString("en-US",{maximumFractionDigits:2});}
 function closeModal(id){document.getElementById(id).style.display="none";}
@@ -181,7 +177,7 @@ function openCart(){renderCart();showModal("cartModal");}
 
 async function loadProducts(){
  const {data,error}=await db.from("products").select("*").eq("is_active",true).order("created_at",{ascending:false});
- if(error){document.getElementById("products").innerHTML='<div class="empty">تعذر تحميل المنتجات. يرجى المحاولة لاحقاً.</div>';return;}
+ if(error){document.getElementById("products").innerHTML='<div class="empty">تعذر تحميل المنتجات.</div>';return;}
  products=data||[];
  renderCategories();
  renderProducts();
@@ -197,8 +193,10 @@ function selectCategory(c){selectedCategory=c;renderCategories();renderProducts(
 
 function renderProducts(){
  const search=document.getElementById("search").value.trim().toLowerCase();
- const filtered=products.filter(p=>(selectedCategory==="الكل"||p.category===selectedCategory)&&
- (String(p.name||"").toLowerCase().includes(search)||String(p.description||"").toLowerCase().includes(search)));
+ const filtered=products.filter(p=>
+ (selectedCategory==="الكل"||p.category===selectedCategory)&&
+ (String(p.name||"").toLowerCase().includes(search)||String(p.description||"").toLowerCase().includes(search))
+ );
  const area=document.getElementById("products");
  if(!filtered.length){area.innerHTML='<div class="empty">لا توجد منتجات في هذا القسم حالياً.</div>';return;}
  area.innerHTML=filtered.map(p=>`
@@ -208,9 +206,13 @@ function renderProducts(){
    <h3>${safe(p.name)}</h3>
    <div class="desc">${safe(p.description||p.category||"")}</div>
    <div class="price">${money(p.price)}</div>
+   <div class="quantity-control">
+    <label>الكمية:</label>
+    <input type="number" id="qty-${p.id}" value="1" min="1" step="1">
+   </div>
    <div class="card-buttons">
     <button class="secondary" onclick="showDetails('${p.id}')">التفاصيل</button>
-    <button class="primary" onclick="addToCart('${p.id}')">أضف للسلة</button>
+    <button class="primary" onclick="addToCart('${p.id}',document.getElementById('qty-${p.id}').value)">أضف للسلة</button>
    </div>
   </div>
  </article>`).join("");
@@ -222,35 +224,75 @@ function showDetails(id){
  ${p.image_url?`<img src="${safe(p.image_url)}" style="width:100%;height:230px;object-fit:contain;background:#f3f7fb;border-radius:12px">`:""}
  <h2>${safe(p.name)}</h2><p>${safe(p.description||"")}</p>
  <h3 style="color:#1264b5">${money(p.price)}</h3>
- <button class="primary" onclick="addToCart('${p.id}');closeModal('detailModal')">أضف إلى السلة</button>`;
+ <div class="quantity-control">
+ <label>الكمية:</label>
+ <input type="number" id="detailQty" value="1" min="1">
+ </div>
+ <button class="primary" onclick="addToCart('${p.id}',document.getElementById('detailQty').value);closeModal('detailModal')">أضف إلى السلة</button>`;
  showModal("detailModal");
 }
 
-function addToCart(id){
- const p=products.find(x=>x.id===id);if(!p)return;
+function addToCart(id,quantity=1){
+ const p=products.find(x=>x.id===id);
+ if(!p)return;
+ quantity=Math.floor(Number(quantity));
+ if(!Number.isFinite(quantity)||quantity<1){
+  alert("يرجى اختيار كمية صحيحة");
+  return;
+ }
  const item=cart.find(x=>x.id===id);
- if(item)item.qty++;else cart.push({id:p.id,name:p.name,price:Number(p.price),qty:1});
+ if(item)item.qty+=quantity;
+ else cart.push({id:p.id,name:p.name,price:Number(p.price),qty:quantity});
  updateCartCount();
+ alert("تمت إضافة "+quantity+" من "+p.name+" إلى السلة");
 }
-function updateCartCount(){document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);}
+
+function changeCartQty(id,amount){
+ const item=cart.find(x=>x.id===id);
+ if(!item)return;
+ item.qty+=amount;
+ if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
+ updateCartCount();
+ renderCart();
+}
+function updateCartCount(){
+ document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);
+}
 function renderCart(){
  const box=document.getElementById("cartItems");
- if(!cart.length){box.innerHTML='<div class="empty">السلة فارغة حالياً</div>';document.getElementById("cartTotal").textContent="";return;}
- box.innerHTML=cart.map(x=>`<div class="cart-line"><span>${safe(x.name)} × ${x.qty}</span><span>${money(x.price*x.qty)}</span><button class="secondary" onclick="removeCart('${x.id}')">حذف</button></div>`).join("");
- document.getElementById("cartTotal").textContent="الإجمالي: "+money(cart.reduce((s,x)=>s+x.price*x.qty,0));
+ if(!cart.length){
+  box.innerHTML='<div class="empty">السلة فارغة حالياً</div>';
+  document.getElementById("cartTotal").textContent="";
+  return;
+ }
+ box.innerHTML=cart.map(x=>`
+ <div class="cart-line">
+  <div>
+   <strong>${safe(x.name)}</strong>
+   <div style="font-size:12px;color:#1264b5">${money(x.price)} للقطعة</div>
+  </div>
+  <div class="qty-buttons">
+   <button onclick="changeCartQty('${x.id}',-1)">−</button>
+   <strong>${x.qty}</strong>
+   <button onclick="changeCartQty('${x.id}',1)">+</button>
+  </div>
+  <strong>${money(x.price*x.qty)}</strong>
+ </div>`).join("");
+ document.getElementById("cartTotal").textContent=
+ "الإجمالي: "+money(cart.reduce((s,x)=>s+x.price*x.qty,0));
 }
-function removeCart(id){cart=cart.filter(x=>x.id!==id);updateCartCount();renderCart();}
+
 function checkout(){
  if(!cart.length){alert("السلة فارغة");return;}
  const name=document.getElementById("buyerName").value.trim();
  const phone=document.getElementById("buyerPhone").value.trim();
  const address=document.getElementById("buyerAddress").value.trim();
  if(!name||!phone||!address){alert("يرجى إدخال الاسم ورقم الهاتف والعنوان");return;}
- let msg="طلب جديد من متجر DELICE%0A";
- msg+="الاسم: "+encodeURIComponent(name)+"%0Aالهاتف: "+encodeURIComponent(phone)+"%0Aالعنوان: "+encodeURIComponent(address)+"%0A%0A";
- cart.forEach(x=>{msg+=encodeURIComponent(x.name)+" × "+x.qty+" = "+money(x.price*x.qty)+"%0A";});
- msg+="%0Aالإجمالي: "+money(cart.reduce((s,x)=>s+x.price*x.qty,0));
- window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+msg,"_blank");
+ let msg="طلب جديد من متجر DELICE\n";
+ msg+="الاسم: "+name+"\nالهاتف: "+phone+"\nالعنوان: "+address+"\n\n";
+ cart.forEach(x=>{msg+=x.name+" × "+x.qty+" = "+money(x.price*x.qty)+"\n";});
+ msg+="\nالإجمالي: "+money(cart.reduce((s,x)=>s+x.price*x.qty,0));
+ window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank");
 }
 
 async function login(){
@@ -270,19 +312,26 @@ async function login(){
  await loadAdminProducts();
  showModal("adminModal");
 }
+
 async function logout(){
- await db.auth.signOut();currentUser=null;closeModal("adminModal");
+ await db.auth.signOut();
+ currentUser=null;
+ closeModal("adminModal");
 }
+
 async function loadAdminProducts(){
  const {data,error}=await db.from("products").select("*").order("created_at",{ascending:false});
  if(error){alert("تعذر تحميل قائمة الإدارة: "+error.message);return;}
  document.getElementById("adminProducts").innerHTML=(data||[]).map(p=>`
  <div class="admin-row">
  <span>${safe(p.name)} — ${money(p.price)} ${p.is_active?"":"(مخفي)"}</span>
- <span><button class="secondary" onclick="editProduct('${p.id}')">تعديل</button>
- <button style="background:#ffe9e9;color:#a22" onclick="deleteProduct('${p.id}')">حذف</button></span>
+ <span>
+ <button class="secondary" onclick="editProduct('${p.id}')">تعديل</button>
+ <button style="background:#ffe9e9;color:#a22" onclick="deleteProduct('${p.id}')">حذف</button>
+ </span>
  </div>`).join("")||"لا توجد منتجات.";
 }
+
 function openProductForm(){
  document.getElementById("productFormTitle").textContent="إضافة منتج جديد";
  document.getElementById("editId").value="";
@@ -292,6 +341,7 @@ function openProductForm(){
  document.getElementById("saveMessage").textContent="";
  showModal("productModal");
 }
+
 async function editProduct(id){
  const {data,error}=await db.from("products").select("*").eq("id",id).single();
  if(error){alert(error.message);return;}
@@ -306,6 +356,7 @@ async function editProduct(id){
  document.getElementById("saveMessage").textContent="";
  showModal("productModal");
 }
+
 async function saveProduct(){
  if(!currentUser||currentUser.id!==ADMIN_UID){alert("غير مخوّل");return;}
  const name=document.getElementById("pName").value.trim();
@@ -316,7 +367,10 @@ async function saveProduct(){
  const active=document.getElementById("pActive").checked;
  const file=document.getElementById("pImage").files[0];
  const msg=document.getElementById("saveMessage");
- if(!name||!category||!Number.isFinite(price)||price<0){msg.textContent="يرجى إدخال الاسم والقسم والسعر بشكل صحيح.";return;}
+ if(!name||!category||!Number.isFinite(price)||price<0){
+  msg.textContent="يرجى إدخال الاسم والقسم والسعر بشكل صحيح.";
+  return;
+ }
  msg.textContent="جارٍ حفظ المنتج...";
  let imageUrl=null;
  if(file){
@@ -338,11 +392,13 @@ async function saveProduct(){
  await loadAdminProducts();
  setTimeout(()=>closeModal("productModal"),700);
 }
+
 async function deleteProduct(id){
  if(!confirm("هل أنت متأكد من حذف هذا المنتج؟"))return;
  const {error}=await db.from("products").delete().eq("id",id);
  if(error){alert("تعذر الحذف: "+error.message);return;}
- await loadProducts();await loadAdminProducts();
+ await loadProducts();
+ await loadAdminProducts();
 }
 
 db.auth.getSession().then(({data})=>{
