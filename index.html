@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DELICE | متجر المنتجات</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--blue:#0876c9;--dark:#07518d;--light:#eef7ff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f7faff;color:#18324a}
+header{background:white;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;box-shadow:0 2px 12px #0000000b;flex-wrap:wrap}
+.logo{font-size:30px;font-weight:900;color:var(--blue);letter-spacing:2px}
+.logo span{color:#18324a}
+header button,.btn{background:var(--blue);color:white;border:0;padding:11px 18px;border-radius:9px;cursor:pointer;font-weight:bold}
+.hero{margin:22px auto;max-width:1200px;background:linear-gradient(120deg,#0876c9,#07518d);color:white;padding:45px 25px;border-radius:18px;text-align:center}
+.hero h1{font-size:34px;margin:0 0 12px}
+.hero p{font-size:17px;margin:0}
+main{max-width:1200px;margin:auto;padding:15px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+input,select,textarea{padding:12px;border:1px solid #d6e1ed;border-radius:8px;font:inherit;min-width:0}
+#search{flex:1;min-width:180px}
+.categories{display:flex;gap:8px;overflow:auto;padding:5px 0 15px}
+.categories button{white-space:nowrap;border:1px solid #c9dff2;background:white;color:var(--dark);padding:9px 15px;border-radius:20px;cursor:pointer}
+.categories button.active{background:var(--blue);color:white}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 3px 15px #163b5b12}
+.card img{width:100%;height:210px;object-fit:contain;background:white}
+.card-body{padding:14px}
+.card h3{margin:0 0 8px;font-size:18px}
+.price{color:var(--blue);font-size:20px;font-weight:bold;margin:8px 0}
+.muted{color:#718397;font-size:13px}
+.card-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.card-actions a,.card-actions button{flex:1;text-align:center;text-decoration:none;border:0;border-radius:7px;padding:9px;font-size:13px;cursor:pointer}
+.order{background:#e8f6ee;color:#167442}
+.edit{background:#eaf4ff;color:#07518d}
+.delete{background:#fff0f0;color:#b32626}
+.panel{background:white;padding:20px;border-radius:14px;margin:20px 0;box-shadow:0 3px 15px #163b5b10}
+.panel h2{margin-top:0}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.form-grid input,.form-grid textarea,.form-grid select{width:100%}
+.form-grid textarea{grid-column:1/-1}
+.full{grid-column:1/-1}
+.hidden{display:none!important}
+footer{text-align:center;padding:30px;color:#718397}
+.status{padding:12px;border-radius:8px;margin:12px 0;background:var(--light)}
+@media(max-width:600px){.hero h1{font-size:26px}.form-grid{grid-template-columns:1fr}.form-grid textarea,.full{grid-column:auto}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card img{height:145px}.card-body{padding:10px}.card h3{font-size:15px}.price{font-size:17px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">DELI<span>CE</span></div>
+  <button id="adminButton">دخول الإدارة</button>
+</header>
+
+<section class="hero">
+  <h1>مرحباً بكم في DELICE</h1>
+  <p>اكتشفوا منتجاتنا واستمتعوا بتجربة تسوق مميزة</p>
+</section>
+
+<main>
+  <section id="loginPanel" class="panel hidden">
+    <h2>تسجيل دخول الإدارة</h2>
+    <div class="form-grid">
+      <input id="email" type="email" placeholder="البريد الإلكتروني">
+      <input id="password" type="password" placeholder="كلمة المرور">
+      <button class="btn full" id="loginButton">تسجيل الدخول</button>
+    </div>
+    <p id="loginMessage" class="muted"></p>
+  </section>
+
+  <section id="adminPanel" class="panel hidden">
+    <h2>لوحة إدارة DELICE</h2>
+    <p id="adminWelcome" class="muted">أنت مسجل الدخول</p>
+    <h3 id="formTitle">إضافة منتج جديد</h3>
+    <div class="form-grid">
+      <input id="productName" placeholder="اسم المنتج">
+      <input id="productCategory" placeholder="التصنيف">
+      <input id="productPrice" type="number" min="0" step="0.01" placeholder="السعر">
+      <input id="productImage" type="file" accept="image/jpeg,image/png,image/webp">
+      <textarea id="productDescription" rows="3" placeholder="وصف المنتج"></textarea>
+      <label class="full"><input id="productActive" type="checkbox" checked> إظهار المنتج في المتجر</label>
+      <button class="btn" id="saveProduct">حفظ المنتج</button>
+      <button class="btn" id="cancelEdit" style="background:#718397">إلغاء</button>
+      <button class="btn full" id="logoutButton" style="background:#a83232">تسجيل الخروج</button>
+    </div>
+    <p id="adminMessage" class="muted"></p>
+  </section>
+
+  <div class="tools">
+    <input id="search" placeholder="ابحث عن منتج...">
+  </div>
+
+  <div class="categories" id="categories"></div>
+  <h2>منتجاتنا</h2>
+  <div id="products" class="products"></div>
+  <p id="emptyMessage" class="muted"></p>
+</main>
+
+<footer>DELICE © جميع الحقوق محفوظة</footer>
+
+<script>
+const SUPABASE_URL = "https://grqceqdhjvfkcndshupu.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hESgegG_7QZvZItMRsQfEg_SrE4wPvO";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const BUCKET = "product-images";
+const WHATSAPP = "970592841090";
+
+let currentUser = null;
+let productsList = [];
+let selectedCategory = "الكل";
+let editingId = null;
+
+const $ = id => document.getElementById(id);
+
+function message(id, text) {
+  $(id).textContent = text;
+}
+
+function resetForm() {
+  editingId = null;
+  $("formTitle").textContent = "إضافة منتج جديد";
+  $("productName").value = "";
+  $("productCategory").value = "";
+  $("productPrice").value = "";
+  $("productDescription").value = "";
+  $("productImage").value = "";
+  $("productActive").checked = true;
+}
+
+async function loadProducts() {
+  const {data, error} = await db
+    .from("products")
+    .select("*")
+    .order("created_at", {ascending:false});
+
+  if (error) {
+    message("emptyMessage", "تعذر تحميل المنتجات. يرجى مراجعة إعدادات قاعدة البيانات.");
+    return;
+  }
+
+  productsList = data || [];
+  renderCategories();
+  renderProducts();
+}
+
+function renderCategories() {
+  const visible = productsList.filter(p => p.is_active);
+  const cats = ["الكل", ...new Set(visible.map(p => p.category).filter(Boolean))];
+  const container = $("categories");
+  container.replaceChildren();
+
+  cats.forEach(cat => {
+    const button = document.createElement("button");
+    button.textContent = cat;
+    if (selectedCategory === cat) button.classList.add("active");
+    button.onclick = () => {
+      selectedCategory = cat;
+      renderCategories();
+      renderProducts();
+    };
+    container.appendChild(button);
+  });
+}
+
+function renderProducts() {
+  const container = $("products");
+  container.replaceChildren();
+
+  const query = $("search").value.trim().toLowerCase();
+
+  const visible = productsList.filter(p => {
+    const allowed = currentUser ? true : p.is_active;
+    const categoryMatch = selectedCategory === "الكل" || p.category === selectedCategory;
+    const searchMatch = (p.name || "").toLowerCase().includes(query);
+    return allowed && categoryMatch && searchMatch;
+  });
+
+  message("emptyMessage", visible.length ? "" : "لا توجد منتجات لعرضها حالياً.");
+
+  visible.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const img = document.createElement("img");
+    img.src = p.image_url || "https://placehold.co/400x300?text=DELICE";
+    img.alt = p.name || "منتج DELICE";
+    img.loading = "lazy";
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+
+    const name = document.createElement("h3");
+    name.textContent = p.name || "";
+
+    const category = document.createElement("div");
+    category.className = "muted";
+    category.textContent = p.category || "";
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = p.price != null ? p.price : "";
+
+    const description = document.createElement("p");
+    description.className = "muted";
+    description.textContent = p.description || "";
+
+    body.append(name, category, price, description);
+
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+
+    const order = document.createElement("a");
+    order.className = "order";
+    order.textContent = "اطلب عبر واتساب";
+    order.href = "https://wa.me/" + WHATSAPP + "?text=" +
+      encodeURIComponent("مرحباً، أريد طلب المنتج: " + p.name);
+    order.target = "_blank";
+    order.rel = "noopener";
+
+    actions.appendChild(order);
+
+    if (currentUser) {
+      const edit = document.createElement("button");
+      edit.className = "edit";
+      edit.textContent = "تعديل";
+      edit.onclick = () => editProduct(p);
+
+      const del = document.createElement("button");
+      del.className = "delete";
+      del.textContent = "حذف";
+      del.onclick = () => deleteProduct(p.id);
+
+      actions.append(edit, del);
+    }
+
+    body.appendChild(actions);
+    card.append(img, body);
+    container.appendChild(card);
+  });
+}
+
+function editProduct(p) {
+  editingId = p.id;
+  $("formTitle").textContent = "تعديل المنتج";
+  $("productName").value = p.name || "";
+  $("productCategory").value = p.category || "";
+  $("productPrice").value = p.price ?? "";
+  $("productDescription").value = p.description || "";
+  $("productActive").checked = !!p.is_active;
+  $("productImage").value = "";
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+async function saveProduct() {
+  if (!currentUser) return;
+
+  const name = $("productName").value.trim();
+  const category = $("productCategory").value.trim();
+  const price = $("productPrice").value;
+  const description = $("productDescription").value.trim();
+  const file = $("productImage").files[0];
+
+  if (!name || !category || price === "") {
+    message("adminMessage", "يرجى إدخال اسم المنتج والتصنيف والسعر.");
+    return;
+  }
+
+  message("adminMessage", "جارٍ حفظ المنتج...");
+
+  let image_url = editingId
+    ? (productsList.find(p => p.id === editingId)?.image_url || "")
+    : "";
+
+  if (file) {
+    if (file.size > 5 * 1024 * 1024) {
+      message("adminMessage", "حجم الصورة يجب ألا يتجاوز 5 ميغابايت.");
+      return;
+    }
+
+    const ext = file.name.split(".").pop().toLowerCase();
+    const path = Date.now() + "-" + crypto.randomUUID() + "." + ext;
+
+    const {error: uploadError} = await db.storage
+      .from(BUCKET)
+      .upload(path, file, {upsert:false});
+
+    if (uploadError) {
+      message("adminMessage", "تعذر رفع الصورة: " + uploadError.message);
+      return;
+    }
+
+    const {data:urlData} = db.storage.from(BUCKET).getPublicUrl(path);
+    image_url = urlData.publicUrl;
+  }
+
+  const record = {
+    name,
+    category,
+    price: Number(price),
+    description,
+    image_url,
+    is_active: $("productActive").checked
+  };
+
+  let result;
+
+  if (editingId) {
+    result = await db.from("products").update(record).eq("id", editingId);
+  } else {
+    result = await db.from("products").insert(record);
+  }
+
+  if (result.error) {
+    message("adminMessage", "حدث خطأ أثناء الحفظ: " + result.error.message);
+    return;
+  }
+
+  resetForm();
+  message("adminMessage", "تم حفظ المنتج بنجاح.");
+  await loadProducts();
+}
+
+async function deleteProduct(id) {
+  if (!currentUser || !confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
+
+  const {error} = await db.from("products").delete().eq("id", id);
+
+  if (error) {
+    alert("تعذر حذف المنتج: " + error.message);
+    return;
+  }
+
+  await loadProducts();
+}
+
+async function login() {
+  const email = $("email").value.trim();
+  const password = $("password").value;
+
+  message("loginMessage", "جارٍ تسجيل الدخول...");
+
+  const {error} = await db.auth.signInWithPassword({email, password});
+
+  if (error) {
+    message("loginMessage", "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.");
+    return;
+  }
+
+  message("loginMessage", "تم تسجيل الدخول.");
+}
+
+async function logout() {
+  await db.auth.signOut();
+}
+
+function updateAuth(user) {
+  currentUser = user;
+  $("adminPanel").classList.toggle("hidden", !user);
+  $("loginPanel").classList.add("hidden");
+  $("adminButton").textContent = user ? "لوحة الإدارة" : "دخول الإدارة";
+  renderProducts();
+  renderCategories();
+}
+
+$("adminButton").onclick = () => {
+  if (currentUser) {
+    $("adminPanel").classList.toggle("hidden");
+  } else {
+    $("loginPanel").classList.toggle("hidden");
+  }
+};
+
+$("loginButton").onclick = login;
+$("logoutButton").onclick = logout;
+$("saveProduct").onclick = saveProduct;
+$("cancelEdit").onclick = resetForm;
+$("search").addEventListener("input", renderProducts);
+
+db.auth.onAuthStateChange((_event, session) => {
+  updateAuth(session?.user || null);
+});
+
+(async function start() {
+  const {data} = await db.auth.getSession();
+  updateAuth(data.session?.user || null);
+  await loadProducts();
+})();
+</script>
+</body>
+</html>
