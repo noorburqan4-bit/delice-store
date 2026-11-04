@@ -1,310 +1,276 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Search Console Verification -->
-  <meta name="google-site-verification" content="c1X2-y4ICCSa2d9ouRBa8g2QPOG-VAMJf-K590F5Bmk" />
+<meta name="google-site-verification" content="c1X2-y4ICCSa2d9ouRBa8g2QPOG-VAMJf-K590F5Bmk">
+<title>DELICE | متجر ديليس الرسمي</title>
+<meta name="description" content="متجر DELICE الإلكتروني. اكتشف منتجاتنا وتسوق بسهولة.">
+<meta name="keywords" content="DELICE, ديليس, متجر ديليس, منتجات غذائية, تسوق إلكتروني">
+<meta name="author" content="DELICE">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DELICE | متجر ديليس">
+<meta property="og:description" content="اكتشف منتجات DELICE وتسوق بسهولة.">
+<meta property="og:url" content="https://delice-store.noorburqan4.workers.dev/">
+<meta property="og:site_name" content="DELICE">
+<link rel="canonical" href="https://delice-store.noorburqan4.workers.dev/">
 
-  <title>DELICE | متجر ديليس الرسمي</title>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Store",
+  "name":"DELICE",
+  "alternateName":"ديليس",
+  "url":"https://delice-store.noorburqan4.workers.dev/",
+  "description":"متجر DELICE الإلكتروني",
+  "inLanguage":"ar"
+}
+</script>
 
-  <!-- إعدادات محركات البحث -->
-  <meta name="description" content="متجر DELICE الإلكتروني. اكتشف منتجاتنا وتسوق بسهولة، وتصفح أحدث المنتجات والعروض.">
-  <meta name="keywords" content="DELICE, ديليس, متجر ديليس, منتجات غذائية, تسوق إلكتروني">
-  <meta name="author" content="DELICE">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="Arabic">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- إعدادات مشاركة الموقع -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="DELICE | متجر ديليس">
-  <meta property="og:description" content="اكتشف منتجات DELICE وتسوق بسهولة.">
-  <meta property="og:url" content="https://delice-store.noorburqan4.workers.dev/">
-  <meta property="og:site_name" content="DELICE">
-  <meta property="og:locale" content="ar_AR">
-
-  <link rel="canonical" href="https://delice-store.noorburqan4.workers.dev/">
-
-  <!-- بيانات المتجر لمحركات البحث -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Store",
-    "name": "DELICE",
-    "alternateName": "ديليس",
-    "url": "https://delice-store.noorburqan4.workers.dev/",
-    "description": "متجر DELICE الإلكتروني لتصفح المنتجات والتسوق بسهولة.",
-    "inLanguage": "ar"
-  }
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    :root {
-      --blue: #1769aa;
-      --dark: #123b60;
-      --light: #f3f7fb;
-      --white: #fff;
-      --text: #243447;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--light);
-      color: var(--text);
-    }
-
-    button, input, textarea, select { font: inherit; }
-    button { cursor: pointer; }
-
-    header {
-      background: white;
-      padding: 16px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      box-shadow: 0 2px 12px #0000000d;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .logo {
-      font-size: 29px;
-      font-weight: 900;
-      color: var(--blue);
-      letter-spacing: 2px;
-    }
-
-    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .btn {
-      border: 0;
-      border-radius: 9px;
-      padding: 10px 15px;
-      background: var(--blue);
-      color: white;
-    }
-
-    .btn.secondary { background: #e6eef6; color: var(--dark); }
-    .btn.danger { background: #d94343; }
-
-    .hero {
-      background: linear-gradient(120deg, #123b60, #2788c9);
-      color: white;
-      padding: 38px 6%;
-      text-align: center;
-    }
-
-    .hero h1 { margin: 0 0 10px; font-size: 32px; }
-    .hero p { margin: 0; opacity: .9; }
-
-    .container { max-width: 1200px; margin: auto; padding: 24px 16px; }
-
-    .filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-
-    .filters input, .filters select {
-      background: white;
-      border: 1px solid #dce4ec;
-      border-radius: 9px;
-      padding: 12px;
-      flex: 1;
-      min-width: 150px;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 18px;
-    }
-
-    .product {
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 3px 15px #0000000b;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .gallery {
-      position: relative;
-      height: 220px;
-      background: #edf2f7;
-      overflow: hidden;
-    }
-
-    .gallery img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      cursor: pointer;
-    }
-
-    .gallery-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 0;
-      background: #ffffffd9;
-      color: #123b60;
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      font-size: 22px;
-    }
-
-    .gallery-arrow.prev { right: 8px; }
-    .gallery-arrow.next { left: 8px; }
-
-    .dots {
-      position: absolute;
-      bottom: 9px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ffffffa8;
-      border: 1px solid #777;
-      padding: 0;
-    }
-
-    .dot.active { background: var(--blue); }
-
-    .product-info {
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .product-info h3 { margin: 0 0 7px; font-size: 18px; }
-    .category { color: #718096; font-size: 13px; margin-bottom: 8px; }
-    .description { font-size: 13px; color: #657487; line-height: 1.6; }
-    .price { color: var(--blue); font-weight: bold; font-size: 19px; margin: 10px 0; }
-
-    .quantity {
-      width: 75px;
-      padding: 8px;
-      border: 1px solid #dce4ec;
-      border-radius: 8px;
-      margin-bottom: 9px;
-    }
-
-    .product-info .btn { width: 100%; margin-top: auto; }
-    .empty { text-align: center; padding: 40px; color: #718096; }
-    .section-title { margin: 5px 0 20px; }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: #0009;
-      z-index: 30;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      overflow-y: auto;
-    }
-
-    .modal {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      width: 100%;
-      max-width: 600px;
-      max-height: 92vh;
-      overflow-y: auto;
-    }
-
-    .modal h2 { margin-top: 0; }
-
-    .modal input, .modal textarea, .modal select {
-      width: 100%;
-      padding: 11px;
-      margin: 6px 0 12px;
-      border: 1px solid #dce4ec;
-      border-radius: 8px;
-    }
-
-    .modal textarea { min-height: 75px; resize: vertical; }
-    .modal-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .close {
-      float: left;
-      border: 0;
-      background: transparent;
-      font-size: 25px;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid #eee;
-      padding: 12px 0;
-    }
-
-    .cart-item small { display: block; color: #718096; margin-top: 5px; }
-
-    .cart-controls { display: flex; align-items: center; gap: 7px; }
-
-    .cart-controls button {
-      border: 0;
-      border-radius: 6px;
-      padding: 5px 10px;
-      background: #e6eef6;
-    }
-
-    .admin-product {
-      padding: 12px 0;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .admin-product-actions { display: flex; gap: 6px; }
-    .detail-gallery { height: 300px; }
-    .detail-gallery img { cursor: default; }
-    .hint { font-size: 12px; color: #718096; }
-    footer { text-align: center; padding: 25px; color: #718096; }
-
-    @media(max-width: 500px) {
-      .hero h1 { font-size: 25px; }
-      .gallery { height: 190px; }
-      .products {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-      .product-info { padding: 10px; }
-      .product-info h3 { font-size: 15px; }
-      .price { font-size: 16px; }
-    }
-  </style>
+<style>
+:root {
+  --blue:#1769aa;
+  --dark:#123b60;
+  --light:#f3f7fb;
+  --white:#fff;
+  --text:#243447;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
+button,input,textarea,select {font:inherit}
+button {cursor:pointer}
+header {
+  background:white;
+  padding:16px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  box-shadow:0 2px 12px #0000000d;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.logo {
+  font-size:29px;
+  font-weight:900;
+  color:var(--blue);
+  letter-spacing:2px;
+}
+.header-actions {display:flex;gap:8px;flex-wrap:wrap}
+.btn {
+  border:0;
+  border-radius:9px;
+  padding:10px 15px;
+  background:var(--blue);
+  color:white;
+}
+.btn.secondary {background:#e6eef6;color:var(--dark)}
+.btn.danger {background:#d94343}
+.btn:disabled {opacity:.55;cursor:not-allowed}
+.hero {
+  background:linear-gradient(120deg,#123b60,#2788c9);
+  color:white;
+  padding:38px 6%;
+  text-align:center;
+}
+.hero h1 {margin:0 0 10px;font-size:32px}
+.hero p {margin:0;opacity:.9}
+.container {max-width:1200px;margin:auto;padding:24px 16px}
+.filters {display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.filters input,.filters select {
+  background:white;
+  border:1px solid #dce4ec;
+  border-radius:9px;
+  padding:12px;
+  flex:1;
+  min-width:150px;
+}
+.products {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:18px;
+}
+.product {
+  background:white;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 3px 15px #0000000b;
+  display:flex;
+  flex-direction:column;
+}
+.gallery {
+  position:relative;
+  height:220px;
+  background:#edf2f7;
+  overflow:hidden;
+}
+.gallery img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  cursor:pointer;
+}
+.gallery-arrow {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  border:0;
+  background:#ffffffd9;
+  color:#123b60;
+  border-radius:50%;
+  width:34px;
+  height:34px;
+  font-size:22px;
+}
+.gallery-arrow.prev {right:8px}
+.gallery-arrow.next {left:8px}
+.dots {
+  position:absolute;
+  bottom:9px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  gap:6px;
+}
+.dot {
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#ffffffa8;
+  border:1px solid #777;
+  padding:0;
+}
+.dot.active {background:var(--blue)}
+.product-info {
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+.product-info h3 {margin:0 0 7px;font-size:18px}
+.category {color:#718096;font-size:13px;margin-bottom:8px}
+.description {font-size:13px;color:#657487;line-height:1.6}
+.price {color:var(--blue);font-weight:bold;font-size:19px;margin:10px 0}
+.quantity {
+  width:75px;
+  padding:8px;
+  border:1px solid #dce4ec;
+  border-radius:8px;
+  margin-bottom:9px;
+}
+.product-info .btn {width:100%;margin-top:auto}
+.empty {text-align:center;padding:40px;color:#718096}
+.section-title {margin:5px 0 20px}
+.overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0009;
+  z-index:30;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+  overflow-y:auto;
+}
+.modal {
+  background:white;
+  border-radius:15px;
+  padding:20px;
+  width:100%;
+  max-width:650px;
+  max-height:92vh;
+  overflow-y:auto;
+}
+.modal h2 {margin-top:0}
+.modal input,.modal textarea,.modal select {
+  width:100%;
+  padding:11px;
+  margin:6px 0 12px;
+  border:1px solid #dce4ec;
+  border-radius:8px;
+}
+.modal textarea {min-height:75px;resize:vertical}
+.modal-actions {display:flex;gap:8px;flex-wrap:wrap}
+.close {
+  float:left;
+  border:0;
+  background:transparent;
+  font-size:25px;
+}
+.cart-item {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid #eee;
+  padding:12px 0;
+}
+.cart-item small {display:block;color:#718096;margin-top:5px}
+.cart-controls {display:flex;align-items:center;gap:7px}
+.cart-controls button {
+  border:0;
+  border-radius:6px;
+  padding:5px 10px;
+  background:#e6eef6;
+}
+.admin-product {
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.admin-product-actions {display:flex;gap:6px;flex-wrap:wrap}
+.detail-gallery {height:300px}
+.detail-gallery img {cursor:default}
+.hint {font-size:12px;color:#718096}
+.status {
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:7px;
+  font-size:12px;
+  background:#e6eef6;
+  margin-top:6px;
+}
+.status.pending {background:#fff2cc;color:#805900}
+.status.confirmed {background:#d9f5e4;color:#176b39}
+.status.rejected {background:#ffe0e0;color:#a22222}
+.order-card {
+  border:1px solid #e1e8ef;
+  border-radius:10px;
+  padding:13px;
+  margin:12px 0;
+  background:#fff;
+}
+.order-card p {margin:6px 0;line-height:1.6}
+.order-actions {display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.section-divider {border:0;border-top:1px solid #e5eaf0;margin:20px 0}
+.unavailable {color:#c0392b;font-size:13px;margin:8px 0}
+.available {color:#198754;font-size:13px;margin:8px 0}
+footer {text-align:center;padding:25px;color:#718096}
+@media(max-width:500px) {
+  .hero h1 {font-size:25px}
+  .gallery {height:190px}
+  .products {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .product-info {padding:10px}
+  .product-info h3 {font-size:15px}
+  .price {font-size:16px}
+}
+</style>
 </head>
 
 <body>
@@ -331,9 +297,7 @@
       <option value="">جميع التصنيفات</option>
     </select>
   </div>
-
   <h2 class="section-title">منتجاتنا</h2>
-
   <div id="products" class="products">
     <div class="empty">جارٍ تحميل المنتجات...</div>
   </div>
@@ -359,7 +323,10 @@
     <input id="customerName" placeholder="الاسم">
     <input id="customerPhone" placeholder="رقم الهاتف" inputmode="tel">
     <textarea id="customerAddress" placeholder="العنوان"></textarea>
-    <button class="btn" style="width:100%" onclick="checkout()">إرسال الطلب عبر واتساب</button>
+    <button id="checkoutButton" class="btn" style="width:100%" onclick="checkout()">
+      تأكيد الطلب والمتابعة إلى واتساب
+    </button>
+    <p class="hint">سيتم تسجيل طلبك أولاً ثم فتح واتساب لإرساله.</p>
   </div>
 </div>
 
@@ -380,9 +347,17 @@
     <h2>لوحة التحكم</h2>
     <div class="modal-actions">
       <button class="btn" onclick="newProduct()">إضافة منتج جديد +</button>
+      <button class="btn secondary" onclick="refreshAdminData()">تحديث البيانات</button>
       <button class="btn secondary" onclick="adminLogout()">تسجيل الخروج</button>
     </div>
-    <div id="adminProducts"></div>
+
+    <hr class="section-divider">
+    <h3>📦 إدارة المنتجات والمخزون</h3>
+    <div id="adminProducts"><div class="empty">جارٍ التحميل...</div></div>
+
+    <hr class="section-divider">
+    <h3>🧾 الطلبات</h3>
+    <div id="adminOrders"><div class="empty">جارٍ تحميل الطلبات...</div></div>
   </div>
 </div>
 
@@ -390,7 +365,6 @@
   <div class="modal">
     <button class="close" onclick="closeModal('productFormOverlay')">×</button>
     <h2 id="formTitle">إضافة منتج</h2>
-
     <input type="hidden" id="editProductId">
 
     <label>اسم المنتج</label>
@@ -402,14 +376,16 @@
     <label>السعر</label>
     <input id="productPrice" type="number" min="0" step="0.01" placeholder="السعر">
 
+    <label>كمية المخزون</label>
+    <input id="productStock" type="number" min="0" step="1" value="0" placeholder="كمية المخزون">
+    <p class="hint">هذه الكمية تظهر للمسؤول فقط ولا تظهر للزبائن.</p>
+
     <label>الوصف</label>
     <textarea id="productDescription" placeholder="وصف المنتج"></textarea>
 
     <label>صور المنتج (يمكن اختيار أكثر من صورة)</label>
     <input id="productImages" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-
-    <p class="hint">الصور الجديدة ستُضاف إلى الصور القديمة عند تعديل المنتج. الحد الأقصى 5MB لكل صورة.</p>
-
+    <p class="hint">الصور الجديدة ستُضاف إلى الصور القديمة. الحد الأقصى 5MB لكل صورة.</p>
     <div id="existingImages" class="hint"></div>
 
     <button class="btn" style="width:100%" onclick="saveProduct()">حفظ المنتج</button>
@@ -428,11 +404,13 @@ const BUCKET_NAME = "product-images";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let products = [];
+let adminProducts = [];
 let cart = [];
 let currentUser = null;
 let editingImages = [];
 let detailImageIndex = 0;
 let detailProductId = null;
+let checkoutInProgress = false;
 
 function openModal(id) {
   document.getElementById(id).style.display = "flex";
@@ -442,107 +420,37 @@ function closeModal(id) {
   document.getElementById(id).style.display = "none";
 }
 
-function overlayClose(event, id) {
+function overlayClose(event,id) {
   if (event.target.id === id) closeModal(id);
 }
 
 function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+  return String(value ?? "").replace(/[&<>"']/g,ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[ch]);
 }
 
 function money(value) {
-  return Number(value || 0).toLocaleString("en-US", {
-    maximumFractionDigits: 2
+  return Number(value || 0).toLocaleString("en-US",{
+    maximumFractionDigits:2
   });
 }
 
 function getProductImages(product) {
   let list = Array.isArray(product.images) ? product.images : [];
-
   if (product.image_url && !list.includes(product.image_url)) {
-    list = [product.image_url, ...list];
+    list = [product.image_url,...list];
   }
-
   return [...new Set(list.filter(Boolean))];
 }
 
-function productGalleryHTML(product) {
-  const images = getProductImages(product);
-  const first = images[0] || "";
-
-  if (!first) {
-    return `<div class="gallery"><div class="empty">لا توجد صورة</div></div>`;
-  }
-
-  return `
-    <div class="gallery" id="gallery-${product.id}">
-      <img src="${escapeHTML(first)}" alt="${escapeHTML(product.name)}"
-        onclick="openDetail('${product.id}')">
-
-      ${images.length > 1 ? `
-        <button class="gallery-arrow prev"
-          onclick="changeProductImage(event,'${product.id}',-1)">›</button>
-
-        <button class="gallery-arrow next"
-          onclick="changeProductImage(event,'${product.id}',1)">‹</button>
-
-        <div class="dots">
-          ${images.map((_,i) => `
-            <button class="dot ${i === 0 ? "active" : ""}"
-              onclick="setProductImage(event,'${product.id}',${i})"></button>
-          `).join("")}
-        </div>` : ""}
-    </div>`;
-}
-
-function setProductImage(event, productId, index) {
-  event.stopPropagation();
-
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  const images = getProductImages(product);
-  if (!images.length) return;
-
-  index = (index + images.length) % images.length;
-
-  const gallery = document.getElementById(`gallery-${productId}`);
-  if (!gallery) return;
-
-  gallery.querySelector("img").src = images[index];
-
-  gallery.querySelectorAll(".dot").forEach((dot, i) => {
-    dot.classList.toggle("active", i === index);
-  });
-}
-
-function changeProductImage(event, productId, direction) {
-  event.stopPropagation();
-
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  const images = getProductImages(product);
-  const gallery = document.getElementById(`gallery-${productId}`);
-
-  if (!gallery || images.length < 2) return;
-
-  const current = images.indexOf(gallery.querySelector("img").src);
-  setProductImage(event, productId, current + direction);
-}
-
+/* تحميل بيانات المنتجات العامة دون كشف كمية المخزون */
 async function loadProducts() {
-  const { data, error } = await db
+  const {data,error} = await db
     .from(TABLE_NAME)
-    .select("*")
-    .eq("is_active", true)
-    .order("created_at", { ascending: false });
+    .select("id,name,category,price,description,image_url,images,is_active,created_at,in_stock")
+    .eq("is_active",true)
+    .order("created_at",{ascending:false});
 
   if (error) {
     document.getElementById("products").innerHTML =
@@ -558,27 +466,75 @@ async function loadProducts() {
 function updateCategories() {
   const select = document.getElementById("categoryFilter");
   const selected = select.value;
+  const categories = [...new Set(products.map(p=>p.category).filter(Boolean))];
 
-  const categories = [...new Set(products.map(p => p.category).filter(Boolean))];
-
-  select.innerHTML = `<option value="">جميع التصنيفات</option>` +
-    categories.map(c =>
-      `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`
-    ).join("");
+  select.innerHTML = `<option value="">جميع التصنيفات</option>`+
+    categories.map(c=>`<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join("");
 
   select.value = categories.includes(selected) ? selected : "";
+}
+
+function productGalleryHTML(product) {
+  const images = getProductImages(product);
+  if (!images.length) {
+    return `<div class="gallery"><div class="empty">لا توجد صورة</div></div>`;
+  }
+
+  return `
+    <div class="gallery" id="gallery-${product.id}">
+      <img src="${escapeHTML(images[0])}" alt="${escapeHTML(product.name)}"
+        onclick="openDetail('${product.id}')">
+      ${images.length>1?`
+        <button class="gallery-arrow prev" onclick="changeProductImage(event,'${product.id}',-1)">›</button>
+        <button class="gallery-arrow next" onclick="changeProductImage(event,'${product.id}',1)">‹</button>
+        <div class="dots">
+          ${images.map((_,i)=>`
+            <button class="dot ${i===0?"active":""}"
+              onclick="setProductImage(event,'${product.id}',${i})"></button>
+          `).join("")}
+        </div>`:""}
+    </div>`;
+}
+
+function setProductImage(event,productId,index) {
+  event.stopPropagation();
+  const product = products.find(p=>p.id===productId);
+  if (!product) return;
+  const images = getProductImages(product);
+  if (!images.length) return;
+
+  index = (index+images.length)%images.length;
+  const gallery = document.getElementById(`gallery-${productId}`);
+  if (!gallery) return;
+
+  gallery.querySelector("img").src = images[index];
+  gallery.querySelectorAll(".dot").forEach((dot,i)=>{
+    dot.classList.toggle("active",i===index);
+  });
+}
+
+function changeProductImage(event,productId,direction) {
+  event.stopPropagation();
+  const product = products.find(p=>p.id===productId);
+  const gallery = document.getElementById(`gallery-${productId}`);
+  if (!product || !gallery) return;
+
+  const images = getProductImages(product);
+  if (images.length<2) return;
+  const current = images.indexOf(gallery.querySelector("img").src);
+  setProductImage(event,productId,current+direction);
 }
 
 function renderProducts() {
   const search = document.getElementById("searchInput").value.trim().toLowerCase();
   const category = document.getElementById("categoryFilter").value;
 
-  const filtered = products.filter(p => {
+  const filtered = products.filter(p=>{
     const matchesSearch =
-      String(p.name || "").toLowerCase().includes(search) ||
-      String(p.description || "").toLowerCase().includes(search);
+      String(p.name||"").toLowerCase().includes(search) ||
+      String(p.description||"").toLowerCase().includes(search);
 
-    return matchesSearch && (!category || p.category === category);
+    return matchesSearch && (!category || p.category===category);
   });
 
   const container = document.getElementById("products");
@@ -588,100 +544,115 @@ function renderProducts() {
     return;
   }
 
-  container.innerHTML = filtered.map(p => `
-    <article class="product">
-      ${productGalleryHTML(p)}
+  container.innerHTML = filtered.map(p=>{
+    const available = p.in_stock === true;
 
-      <div class="product-info">
-        <h3>${escapeHTML(p.name)}</h3>
-        <div class="category">${escapeHTML(p.category || "")}</div>
-        <div class="description">${escapeHTML(p.description || "")}</div>
-        <div class="price">${money(p.price)}</div>
+    return `
+      <article class="product">
+        ${productGalleryHTML(p)}
+        <div class="product-info">
+          <h3>${escapeHTML(p.name)}</h3>
+          <div class="category">${escapeHTML(p.category||"")}</div>
+          <div class="description">${escapeHTML(p.description||"")}</div>
+          <div class="price">${money(p.price)}</div>
 
-        <label class="hint">الكمية</label>
-        <input class="quantity" id="qty-${p.id}" type="number" min="1" value="1">
+          ${available
+            ? `<div class="available">متوفر</div>`
+            : `<div class="unavailable">غير متوفر حالياً</div>`}
 
-        <button class="btn" onclick="addToCart('${p.id}')">إضافة إلى السلة</button>
-      </div>
-    </article>
-  `).join("");
+          <label class="hint">الكمية</label>
+          <input class="quantity" id="qty-${p.id}" type="number" min="1" value="1"
+            ${available?"":"disabled"}>
+
+          <button class="btn" onclick="addToCart('${p.id}')"
+            ${available?"":"disabled"}>
+            ${available?"إضافة إلى السلة":"غير متوفر"}
+          </button>
+        </div>
+      </article>`;
+  }).join("");
 }
 
 function openDetail(productId) {
-  const product = products.find(p => p.id === productId);
+  const product = products.find(p=>p.id===productId);
   if (!product) return;
 
   const images = getProductImages(product);
   detailImageIndex = 0;
   detailProductId = productId;
+  const available = product.in_stock === true;
 
   document.getElementById("detailContent").innerHTML = `
     <h2>${escapeHTML(product.name)}</h2>
-
     <div class="gallery detail-gallery" id="detailGallery">
       ${images.length
         ? `<img id="detailImage" src="${escapeHTML(images[0])}">`
         : `<div class="empty">لا توجد صورة</div>`}
-
-      ${images.length > 1 ? `
+      ${images.length>1?`
         <button class="gallery-arrow prev" onclick="changeDetailImage(-1)">›</button>
         <button class="gallery-arrow next" onclick="changeDetailImage(1)">‹</button>
-
         <div class="dots">
-          ${images.map((_,i) => `
-            <button class="dot ${i === 0 ? "active" : ""}"
-              onclick="setDetailImage(${i})"></button>
+          ${images.map((_,i)=>`
+            <button class="dot ${i===0?"active":""}" onclick="setDetailImage(${i})"></button>
           `).join("")}
-        </div>` : ""}
+        </div>`:""}
     </div>
-
-    <p>${escapeHTML(product.description || "")}</p>
+    <p>${escapeHTML(product.description||"")}</p>
     <h3 class="price">${money(product.price)}</h3>
-
-    <button class="btn" onclick="addToCart('${product.id}');closeModal('detailOverlay')">
+    ${available?`<p class="available">متوفر</p>`:`<p class="unavailable">غير متوفر حالياً</p>`}
+    <button class="btn" ${available?"":"disabled"}
+      onclick="addToCart('${product.id}',1);closeModal('detailOverlay')">
       إضافة إلى السلة
     </button>
   `;
-
   openModal("detailOverlay");
 }
 
 function setDetailImage(index) {
-  const product = products.find(p => p.id === detailProductId);
+  const product = products.find(p=>p.id===detailProductId);
   if (!product) return;
 
   const images = getProductImages(product);
   if (!images.length) return;
 
-  detailImageIndex = (index + images.length) % images.length;
-
+  detailImageIndex = (index+images.length)%images.length;
   document.getElementById("detailImage").src = images[detailImageIndex];
 
-  document.querySelectorAll("#detailGallery .dot").forEach((dot, i) => {
-    dot.classList.toggle("active", i === detailImageIndex);
+  document.querySelectorAll("#detailGallery .dot").forEach((dot,i)=>{
+    dot.classList.toggle("active",i===detailImageIndex);
   });
 }
 
 function changeDetailImage(direction) {
-  setDetailImage(detailImageIndex + direction);
+  setDetailImage(detailImageIndex+direction);
 }
 
-function addToCart(productId) {
-  const product = products.find(p => p.id === productId);
+function addToCart(productId,forcedQuantity=null) {
+  const product = products.find(p=>p.id===productId);
   if (!product) return;
 
+  if (product.in_stock !== true) {
+    alert("هذا المنتج غير متوفر حالياً");
+    return;
+  }
+
   const input = document.getElementById(`qty-${productId}`);
-  const quantity = Math.max(1, parseInt(input?.value || "1", 10));
+  const rawQuantity = forcedQuantity ?? input?.value ?? 1;
+  const quantity = parseInt(rawQuantity,10);
 
-  const existing = cart.find(item => item.id === productId);
+  if (!Number.isInteger(quantity) || quantity<1) {
+    alert("يرجى إدخال كمية صحيحة");
+    return;
+  }
 
+  const existing = cart.find(item=>item.id===productId);
   if (existing) {
     existing.quantity += quantity;
   } else {
     cart.push({
-      id: product.id,
-      name: product.name,
-      price: Number(product.price),
+      id:product.id,
+      name:product.name,
+      price:Number(product.price),
       quantity
     });
   }
@@ -692,7 +663,7 @@ function addToCart(productId) {
 
 function updateCartCount() {
   document.getElementById("cartCount").textContent =
-    cart.reduce((sum, item) => sum + item.quantity, 0);
+    cart.reduce((sum,item)=>sum+item.quantity,0);
 }
 
 function openCart() {
@@ -709,13 +680,12 @@ function renderCart() {
     return;
   }
 
-  container.innerHTML = cart.map(item => `
+  container.innerHTML = cart.map(item=>`
     <div class="cart-item">
       <div>
         <strong>${escapeHTML(item.name)}</strong>
         <small>${money(item.price)} × ${item.quantity}</small>
       </div>
-
       <div class="cart-controls">
         <button onclick="changeCartQuantity('${item.id}',1)">+</button>
         <strong>${item.quantity}</strong>
@@ -725,32 +695,31 @@ function renderCart() {
     </div>
   `).join("");
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
+  const total = cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
   document.getElementById("cartTotal").textContent = `المجموع: ${money(total)}`;
 }
 
-function changeCartQuantity(id, amount) {
-  const item = cart.find(p => p.id === id);
+function changeCartQuantity(id,amount) {
+  const item = cart.find(p=>p.id===id);
   if (!item) return;
 
   item.quantity += amount;
-
-  if (item.quantity <= 0) {
-    cart = cart.filter(p => p.id !== id);
-  }
+  if (item.quantity<=0) cart = cart.filter(p=>p.id!==id);
 
   updateCartCount();
   renderCart();
 }
 
 function removeFromCart(id) {
-  cart = cart.filter(p => p.id !== id);
+  cart = cart.filter(p=>p.id!==id);
   updateCartCount();
   renderCart();
 }
 
-function checkout() {
+/* إنشاء الطلب في قاعدة البيانات أولاً ثم فتح واتساب */
+async function checkout() {
+  if (checkoutInProgress) return;
+
   if (!cart.length) {
     alert("السلة فارغة");
     return;
@@ -765,26 +734,65 @@ function checkout() {
     return;
   }
 
-  let message = `طلب جديد من متجر DELICE%0A`;
-  message += `الاسم: ${encodeURIComponent(name)}%0A`;
-  message += `الهاتف: ${encodeURIComponent(phone)}%0A`;
-  message += `العنوان: ${encodeURIComponent(address)}%0A%0A`;
-  message += `المنتجات:%0A`;
+  const button = document.getElementById("checkoutButton");
+  checkoutInProgress = true;
+  button.disabled = true;
+  button.textContent = "جارٍ تسجيل الطلب...";
 
-  cart.forEach(item => {
-    message += `- ${encodeURIComponent(item.name)} | الكمية: ${item.quantity} | السعر: ${money(item.price * item.quantity)}%0A`;
-  });
+  try {
+    const items = cart.map(item=>({
+      product_id:item.id,
+      quantity:item.quantity
+    }));
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  message += `%0Aالمجموع: ${money(total)}`;
+    const {data:orderId,error} = await db.rpc("place_order",{
+      p_name:name,
+      p_phone:phone,
+      p_address:address,
+      p_items:items
+    });
 
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
+    if (error) throw error;
+    if (!orderId) throw new Error("لم يتم استلام رقم الطلب");
+
+    let message = `طلب جديد من متجر DELICE\n`;
+    message += `رقم الطلب: ${orderId}\n`;
+    message += `الاسم: ${name}\n`;
+    message += `الهاتف: ${phone}\n`;
+    message += `العنوان: ${address}\n\n`;
+    message += `المنتجات:\n`;
+
+    cart.forEach(item=>{
+      message += `- ${item.name} | الكمية: ${item.quantity} | السعر: ${money(item.price*item.quantity)}\n`;
+    });
+
+    message += `\nالمجموع: ${money(cart.reduce((sum,item)=>sum+item.price*item.quantity,0))}`;
+    message += `\nحالة الطلب: قيد الانتظار`;
+
+    cart = [];
+    updateCartCount();
+    renderCart();
+
+    alert("تم تسجيل طلبك بنجاح. سيتم فتح واتساب الآن لإرسال تفاصيل الطلب.");
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.location.href = whatsappUrl;
+
+  } catch(error) {
+    alert("تعذر تسجيل الطلب: "+(error.message||"حدث خطأ غير معروف")+
+      "\nلم يتم تحويلك إلى واتساب. يرجى المحاولة مرة أخرى.");
+  } finally {
+    checkoutInProgress = false;
+    button.disabled = false;
+    button.textContent = "تأكيد الطلب والمتابعة إلى واتساب";
+  }
 }
 
+/* لوحة المسؤول */
 function openAdmin() {
-  if (currentUser && currentUser.id === ADMIN_UID) {
-    renderAdminProducts();
+  if (currentUser && currentUser.id===ADMIN_UID) {
     openModal("adminOverlay");
+    refreshAdminData();
   } else {
     openModal("loginOverlay");
   }
@@ -797,14 +805,14 @@ async function adminLogin() {
 
   message.textContent = "جارٍ تسجيل الدخول...";
 
-  const { data, error } = await db.auth.signInWithPassword({ email, password });
+  const {data,error} = await db.auth.signInWithPassword({email,password});
 
   if (error) {
-    message.textContent = "خطأ: " + error.message;
+    message.textContent = "خطأ: "+error.message;
     return;
   }
 
-  if (data.user.id !== ADMIN_UID) {
+  if (data.user.id!==ADMIN_UID) {
     await db.auth.signOut();
     currentUser = null;
     message.textContent = "هذا الحساب غير مخول للدخول إلى لوحة التحكم";
@@ -813,32 +821,55 @@ async function adminLogin() {
 
   currentUser = data.user;
   closeModal("loginOverlay");
-  renderAdminProducts();
   openModal("adminOverlay");
+  await refreshAdminData();
 }
 
 async function adminLogout() {
   await db.auth.signOut();
   currentUser = null;
+  adminProducts = [];
   closeModal("adminOverlay");
   alert("تم تسجيل الخروج");
+}
+
+/* تحميل المنتجات للمسؤول مع كمية المخزون */
+async function loadAdminProducts() {
+  const container = document.getElementById("adminProducts");
+
+  const {data,error} = await db
+    .from(TABLE_NAME)
+    .select("id,name,category,price,description,image_url,images,is_active,created_at,stock_quantity")
+    .eq("is_active",true)
+    .order("created_at",{ascending:false});
+
+  if (error) {
+    container.innerHTML = `<div class="empty">تعذر تحميل المنتجات: ${escapeHTML(error.message)}</div>`;
+    return;
+  }
+
+  adminProducts = data || [];
+  renderAdminProducts();
 }
 
 function renderAdminProducts() {
   const container = document.getElementById("adminProducts");
 
-  if (!products.length) {
+  if (!adminProducts.length) {
     container.innerHTML = `<div class="empty">لا توجد منتجات</div>`;
     return;
   }
 
-  container.innerHTML = products.map(p => `
+  container.innerHTML = adminProducts.map(p=>`
     <div class="admin-product">
       <div>
         <strong>${escapeHTML(p.name)}</strong>
-        <small>${money(p.price)} - ${getProductImages(p).length} صورة</small>
+        <small style="display:block">
+          السعر: ${money(p.price)} |
+          المخزون: ${Number(p.stock_quantity||0)} |
+          الصور: ${getProductImages(p).length}
+        </small>
       </div>
-
       <div class="admin-product-actions">
         <button class="btn secondary" onclick="editProduct('${p.id}')">تعديل</button>
         <button class="btn danger" onclick="deleteProduct('${p.id}')">حذف</button>
@@ -847,6 +878,132 @@ function renderAdminProducts() {
   `).join("");
 }
 
+async function refreshAdminData() {
+  if (!currentUser || currentUser.id!==ADMIN_UID) return;
+
+  document.getElementById("adminProducts").innerHTML =
+    `<div class="empty">جارٍ تحميل المنتجات...</div>`;
+  document.getElementById("adminOrders").innerHTML =
+    `<div class="empty">جارٍ تحميل الطلبات...</div>`;
+
+  await Promise.all([
+    loadAdminProducts(),
+    loadAdminOrders()
+  ]);
+}
+
+/* الطلبات */
+async function loadAdminOrders() {
+  const container = document.getElementById("adminOrders");
+
+  const {data:orders,error} = await db
+    .from("orders")
+    .select("id,customer_name,customer_phone,customer_address,total,status,created_at")
+    .order("created_at",{ascending:false})
+    .limit(100);
+
+  if (error) {
+    container.innerHTML = `<div class="empty">تعذر تحميل الطلبات: ${escapeHTML(error.message)}</div>`;
+    return;
+  }
+
+  if (!orders || !orders.length) {
+    container.innerHTML = `<div class="empty">لا توجد طلبات حتى الآن</div>`;
+    return;
+  }
+
+  const itemsResult = await db
+    .from("order_items")
+    .select("id,order_id,product_name,quantity,unit_price")
+    .in("order_id",orders.map(o=>o.id));
+
+  if (itemsResult.error) {
+    container.innerHTML = `<div class="empty">تعذر تحميل تفاصيل الطلبات: ${escapeHTML(itemsResult.error.message)}</div>`;
+    return;
+  }
+
+  const allItems = itemsResult.data || [];
+
+  container.innerHTML = orders.map(order=>{
+    const items = allItems.filter(item=>item.order_id===order.id);
+    const statusText = {
+      pending:"قيد الانتظار",
+      confirmed:"تم التأكيد",
+      rejected:"مرفوض"
+    }[order.status] || order.status;
+
+    const date = new Date(order.created_at).toLocaleString("ar");
+
+    return `
+      <div class="order-card">
+        <strong>طلب رقم: ${escapeHTML(order.id)}</strong>
+        <div>
+          <span class="status ${escapeHTML(order.status)}">${escapeHTML(statusText)}</span>
+        </div>
+        <p><strong>العميل:</strong> ${escapeHTML(order.customer_name)}</p>
+        <p><strong>الهاتف:</strong> ${escapeHTML(order.customer_phone)}</p>
+        <p><strong>العنوان:</strong> ${escapeHTML(order.customer_address)}</p>
+        <p><strong>التاريخ:</strong> ${escapeHTML(date)}</p>
+        <p><strong>المنتجات:</strong></p>
+        ${items.map(item=>`
+          <p>• ${escapeHTML(item.product_name)} — الكمية: ${item.quantity} — السعر: ${money(item.unit_price*item.quantity)}</p>
+        `).join("")}
+        <p><strong>المجموع: ${money(order.total)}</strong></p>
+
+        ${order.status==="pending"?`
+          <div class="order-actions">
+            <button class="btn" onclick="confirmOrder('${order.id}')">تأكيد الطلب وخصم المخزون</button>
+            <button class="btn danger" onclick="rejectOrder('${order.id}')">رفض الطلب</button>
+          </div>
+        `:""}
+      </div>
+    `;
+  }).join("");
+}
+
+async function confirmOrder(orderId) {
+  if (!currentUser || currentUser.id!==ADMIN_UID) {
+    alert("غير مصرح لك");
+    return;
+  }
+
+  if (!confirm("هل تريد تأكيد الطلب وخصم الكميات من المخزون؟")) return;
+
+  const {error} = await db.rpc("confirm_order",{
+    p_order_id:orderId
+  });
+
+  if (error) {
+    alert("تعذر تأكيد الطلب: "+error.message);
+    return;
+  }
+
+  alert("تم تأكيد الطلب وخصم المخزون بنجاح");
+  await refreshAdminData();
+}
+
+async function rejectOrder(orderId) {
+  if (!currentUser || currentUser.id!==ADMIN_UID) {
+    alert("غير مصرح لك");
+    return;
+  }
+
+  if (!confirm("هل تريد رفض هذا الطلب؟ لن يتم خصم المخزون.")) return;
+
+  const {error} = await db.rpc("reject_order",{
+    p_order_id:orderId
+  });
+
+  if (error) {
+    alert("تعذر رفض الطلب: "+error.message);
+    return;
+  }
+
+  alert("تم رفض الطلب دون خصم المخزون");
+  await refreshAdminData();
+}
+
+/* نموذج المنتج */
 function newProduct() {
   clearProductForm();
   document.getElementById("formTitle").textContent = "إضافة منتج جديد";
@@ -858,6 +1015,7 @@ function clearProductForm() {
   document.getElementById("productName").value = "";
   document.getElementById("productCategory").value = "";
   document.getElementById("productPrice").value = "";
+  document.getElementById("productStock").value = "0";
   document.getElementById("productDescription").value = "";
   document.getElementById("productImages").value = "";
   document.getElementById("existingImages").textContent = "";
@@ -866,24 +1024,23 @@ function clearProductForm() {
 }
 
 function editProduct(id) {
-  const p = products.find(item => item.id === id);
+  const p = adminProducts.find(item=>item.id===id);
   if (!p) return;
 
   document.getElementById("editProductId").value = p.id;
-  document.getElementById("productName").value = p.name || "";
-  document.getElementById("productCategory").value = p.category || "";
-  document.getElementById("productPrice").value = p.price || "";
-  document.getElementById("productDescription").value = p.description || "";
+  document.getElementById("productName").value = p.name||"";
+  document.getElementById("productCategory").value = p.category||"";
+  document.getElementById("productPrice").value = p.price||"";
+  document.getElementById("productStock").value = Number(p.stock_quantity||0);
+  document.getElementById("productDescription").value = p.description||"";
   document.getElementById("productImages").value = "";
 
   editingImages = getProductImages(p);
-
   document.getElementById("existingImages").textContent =
     `عدد الصور الحالية: ${editingImages.length}. الصور الجديدة ستُضاف إليها.`;
 
   document.getElementById("saveMessage").textContent = "";
   document.getElementById("formTitle").textContent = "تعديل المنتج";
-
   openModal("productFormOverlay");
 }
 
@@ -891,11 +1048,11 @@ async function uploadProductImages(files) {
   const uploadedUrls = [];
 
   for (const file of files) {
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    if (!["image/jpeg","image/png","image/webp"].includes(file.type)) {
       throw new Error("نوع الصورة غير مدعوم. استخدم JPG أو PNG أو WEBP");
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size>5*1024*1024) {
       throw new Error(`حجم الصورة ${file.name} أكبر من 5MB`);
     }
 
@@ -903,17 +1060,15 @@ async function uploadProductImages(files) {
     const fileName = `${crypto.randomUUID()}.${extension}`;
     const filePath = `products/${fileName}`;
 
-    const { error } = await db.storage
-      .from(BUCKET_NAME)
-      .upload(filePath, file, {
-        cacheControl: "3600",
-        upsert: false,
-        contentType: file.type
-      });
+    const {error} = await db.storage.from(BUCKET_NAME).upload(filePath,file,{
+      cacheControl:"3600",
+      upsert:false,
+      contentType:file.type
+    });
 
     if (error) throw error;
 
-    const { data } = db.storage.from(BUCKET_NAME).getPublicUrl(filePath);
+    const {data} = db.storage.from(BUCKET_NAME).getPublicUrl(filePath);
     uploadedUrls.push(data.publicUrl);
   }
 
@@ -921,7 +1076,7 @@ async function uploadProductImages(files) {
 }
 
 async function saveProduct() {
-  if (!currentUser || currentUser.id !== ADMIN_UID) {
+  if (!currentUser || currentUser.id!==ADMIN_UID) {
     alert("يجب تسجيل الدخول كمسؤول أولاً");
     return;
   }
@@ -930,12 +1085,18 @@ async function saveProduct() {
   const name = document.getElementById("productName").value.trim();
   const category = document.getElementById("productCategory").value.trim();
   const price = Number(document.getElementById("productPrice").value);
+  const stock = Number(document.getElementById("productStock").value);
   const description = document.getElementById("productDescription").value.trim();
-  const files = Array.from(document.getElementById("productImages").files || []);
+  const files = Array.from(document.getElementById("productImages").files||[]);
   const message = document.getElementById("saveMessage");
 
-  if (!name || !category || !Number.isFinite(price) || price < 0) {
+  if (!name || !category || !Number.isFinite(price) || price<0) {
     message.textContent = "يرجى إدخال اسم المنتج والتصنيف والسعر بشكل صحيح";
+    return;
+  }
+
+  if (!Number.isInteger(stock) || stock<0) {
+    message.textContent = "يرجى إدخال كمية مخزون صحيحة (صفر أو أكثر)";
     return;
   }
 
@@ -943,22 +1104,23 @@ async function saveProduct() {
 
   try {
     const newUrls = await uploadProductImages(files);
-    const allImages = [...new Set([...editingImages, ...newUrls])];
+    const allImages = [...new Set([...editingImages,...newUrls])];
 
     const productData = {
       name,
       category,
       price,
       description,
-      images: allImages,
-      image_url: allImages[0] || null,
-      is_active: true
+      stock_quantity:stock,
+      images:allImages,
+      image_url:allImages[0]||null,
+      is_active:true
     };
 
     let result;
 
     if (id) {
-      result = await db.from(TABLE_NAME).update(productData).eq("id", id);
+      result = await db.from(TABLE_NAME).update(productData).eq("id",id);
     } else {
       result = await db.from(TABLE_NAME).insert(productData);
     }
@@ -968,40 +1130,39 @@ async function saveProduct() {
     message.textContent = "تم حفظ المنتج بنجاح";
 
     await loadProducts();
-    renderAdminProducts();
+    await refreshAdminData();
 
-    setTimeout(() => {
+    setTimeout(()=>{
       closeModal("productFormOverlay");
       clearProductForm();
-    }, 800);
+    },800);
 
-  } catch (error) {
-    message.textContent = "تعذر الحفظ: " + error.message;
+  } catch(error) {
+    message.textContent = "تعذر الحفظ: "+error.message;
   }
 }
 
 async function deleteProduct(id) {
-  if (!currentUser || currentUser.id !== ADMIN_UID) return;
-
+  if (!currentUser || currentUser.id!==ADMIN_UID) return;
   if (!confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
 
-  const { error } = await db.from(TABLE_NAME).delete().eq("id", id);
+  const {error} = await db.from(TABLE_NAME).delete().eq("id",id);
 
   if (error) {
-    alert("تعذر الحذف: " + error.message);
+    alert("تعذر الحذف: "+error.message);
     return;
   }
 
   await loadProducts();
-  renderAdminProducts();
+  await refreshAdminData();
   alert("تم حذف المنتج");
 }
 
 async function checkSession() {
-  const { data } = await db.auth.getSession();
+  const {data} = await db.auth.getSession();
   const user = data.session?.user;
 
-  if (user && user.id === ADMIN_UID) {
+  if (user && user.id===ADMIN_UID) {
     currentUser = user;
   } else {
     currentUser = null;
