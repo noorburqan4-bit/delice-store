@@ -1,1031 +1,1014 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DELICE | متجر ديليس</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-:root{--blue:#1264b5;--dark:#08396d;--light:#eef6ff;--text:#172b42}
-*{box-sizing:border-box}
-body{margin:0;background:#f7f9fc;color:var(--text);font-family:Tahoma,Arial,sans-serif}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0;border-radius:10px;padding:11px 15px}
-.primary{background:var(--blue);color:white}
-.secondary{background:#e8f2ff;color:var(--dark)}
-header{background:white;box-shadow:0 2px 15px #0b3b6810;position:sticky;top:0;z-index:10}
-.top{max-width:1200px;margin:auto;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.logo{font-size:29px;font-weight:900;color:var(--blue);letter-spacing:2px}
-.logo small{display:block;font-size:10px;letter-spacing:3px;color:#71849b;text-align:center}
-.actions{display:flex;gap:8px;align-items:center}
-.hero{max-width:1200px;margin:25px auto;padding:45px 35px;border-radius:22px;background:linear-gradient(115deg,#073c78,#1680d4);color:white;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.hero h1{font-size:clamp(27px,5vw,45px);margin:0 0 15px}
-.hero p{line-height:1.9;color:#e5f2ff}
-.hero-mark{font-size:75px;opacity:.2;font-weight:900}
-main{max-width:1200px;margin:30px auto;padding:0 18px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:25px 0}
-.section-head h2{margin:0;font-size:23px}
-.search{width:100%;max-width:330px;border:1px solid #dce5ef;border-radius:12px;padding:12px;background:white}
-.categories{display:flex;gap:10px;overflow:auto;padding:5px 0 15px}
-.cat{white-space:nowrap;background:white;border:1px solid #e0e8f1;color:#37516c}
-.cat.active{background:var(--blue);color:white}
-.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-.card{background:white;border:1px solid #edf0f5;border-radius:16px;overflow:hidden}
+  <title>DELICE | متجر ديليس الرسمي</title>
 
-/* معرض الصور */
-.photo{
- height:210px;
- background:#f0f5fa;
- position:relative;
- display:flex;
- align-items:center;
- justify-content:center;
- overflow:hidden;
-}
-.photo img{
- width:100%;
- height:100%;
- object-fit:contain;
-}
-.gallery-arrow{
- position:absolute;
- top:50%;
- transform:translateY(-50%);
- width:34px;
- height:34px;
- padding:0;
- border-radius:50%;
- background:#ffffffdf;
- color:#08396d;
- font-size:22px;
- display:flex;
- align-items:center;
- justify-content:center;
- box-shadow:0 2px 8px #0002;
-}
-.gallery-arrow.right{right:8px}
-.gallery-arrow.left{left:8px}
-.gallery-dots{
- position:absolute;
- bottom:9px;
- left:0;
- right:0;
- display:flex;
- justify-content:center;
- gap:5px;
-}
-.gallery-dot{
- width:7px;
- height:7px;
- border-radius:50%;
- background:#ffffffa8;
- border:1px solid #789;
- padding:0;
-}
-.gallery-dot.active{background:#1264b5;border-color:white}
-.photo-count{
- position:absolute;
- top:9px;
- left:9px;
- background:#ffffffdc;
- color:#08396d;
- padding:4px 8px;
- border-radius:20px;
- font-size:10px;
-}
+  <!-- إعدادات محركات البحث -->
+  <meta name="description" content="متجر DELICE الإلكتروني. اكتشف منتجاتنا وتسوق بسهولة، وتصفح أحدث المنتجات والعروض.">
+  <meta name="keywords" content="DELICE, ديليس, متجر ديليس, منتجات غذائية, تسوق إلكتروني">
+  <meta name="author" content="DELICE">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Arabic">
 
-.info{padding:14px}
-.info h3{margin:0 0 9px;font-size:16px}
-.desc{font-size:12px;color:#78899b;min-height:30px;line-height:1.6}
-.price{color:var(--blue);font-weight:bold;font-size:19px;margin:12px 0}
-.card-buttons{display:flex;gap:7px}
-.card-buttons button{flex:1;font-size:12px;padding:10px 5px}
-.quantity-control{display:flex;align-items:center;gap:8px;margin:12px 0}
-.quantity-control input{width:75px;padding:8px;border:1px solid #dce5ef;border-radius:8px;text-align:center}
-.empty{background:white;padding:35px;text-align:center;border-radius:15px;color:#71849b;grid-column:1/-1}
-footer{text-align:center;padding:30px 15px;background:#082f59;color:#d9eaff;margin-top:55px;font-size:13px}
-.overlay{display:none;position:fixed;inset:0;background:#071c32a8;z-index:30;align-items:center;justify-content:center;padding:15px}
-.modal{background:white;border-radius:18px;padding:22px;width:min(520px,100%);max-height:90vh;overflow:auto}
-.modal h2{margin-top:0}
-.field{margin:12px 0}
-.field label{display:block;font-size:13px;margin-bottom:6px;color:#53677e}
-.field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid #dce4ed;border-radius:9px;background:white}
-.field textarea{min-height:75px}
-.close{float:left;background:#f0f3f7}
-.admin-box{background:#f3f8ff;padding:14px;border-radius:12px;margin:12px 0}
-.admin-row{display:flex;justify-content:space-between;gap:8px;align-items:center;border-bottom:1px solid #e5ebf2;padding:10px 0;font-size:13px}
-.cart-line{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #eee;padding:12px 0}
-.cart-line button{padding:6px 10px}
-.qty-buttons{display:flex;align-items:center;gap:7px}
-.qty-buttons button{padding:5px 10px;background:#e8f2ff;color:#08396d}
+  <!-- إعدادات مشاركة الموقع -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DELICE | متجر ديليس">
+  <meta property="og:description" content="اكتشف منتجات DELICE وتسوق بسهولة.">
+  <meta property="og:url" content="https://delice-store.noorburqan4.workers.dev/">
+  <meta property="og:site_name" content="DELICE">
+  <meta property="og:locale" content="ar_AR">
 
-/* معرض الصور في التفاصيل */
-.detail-gallery{
- position:relative;
- height:280px;
- background:#f3f7fb;
- border-radius:12px;
- overflow:hidden;
- display:flex;
- align-items:center;
- justify-content:center;
-}
-.detail-gallery img{
- width:100%;
- height:100%;
- object-fit:contain;
-}
-.detail-gallery .gallery-arrow{width:40px;height:40px;font-size:25px}
-.detail-gallery .gallery-dots{bottom:12px}
-.current-images{
- display:flex;
- gap:8px;
- flex-wrap:wrap;
- margin-top:10px;
-}
-.current-images img{
- width:65px;
- height:65px;
- object-fit:contain;
- background:#f3f7fb;
- border-radius:8px;
- border:1px solid #e0e8f1;
-}
-.help-text{font-size:12px;color:#71849b;line-height:1.7}
+  <!-- رابط الموقع الأساسي المؤقت -->
+  <link rel="canonical" href="https://delice-store.noorburqan4.workers.dev/">
 
-@media(max-width:850px){
- .products{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-@media(max-width:600px){
- .top{padding:12px}
- .logo{font-size:24px}
- .hero{margin:15px;padding:28px 20px}
- .hero-mark{font-size:45px}
- .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .photo{height:155px}
- .info{padding:11px}
- .info h3{font-size:14px}
- .search{max-width:100%}
- .section-head{align-items:flex-start;flex-direction:column}
- .detail-gallery{height:230px}
-}
-</style>
+  <!-- بيانات المتجر لمحركات البحث -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "DELICE",
+    "alternateName": "ديليس",
+    "url": "https://delice-store.noorburqan4.workers.dev/",
+    "description": "متجر DELICE الإلكتروني لتصفح المنتجات والتسوق بسهولة.",
+    "inLanguage": "ar"
+  }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --blue: #1769aa;
+      --dark: #123b60;
+      --light: #f3f7fb;
+      --white: #fff;
+      --text: #243447;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      color: var(--text);
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+
+    header {
+      background: white;
+      padding: 16px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 12px #0000000d;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 29px;
+      font-weight: 900;
+      color: var(--blue);
+      letter-spacing: 2px;
+    }
+
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 10px 15px;
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn.secondary { background: #e6eef6; color: var(--dark); }
+    .btn.danger { background: #d94343; }
+
+    .hero {
+      background: linear-gradient(120deg, #123b60, #2788c9);
+      color: white;
+      padding: 38px 6%;
+      text-align: center;
+    }
+
+    .hero h1 { margin: 0 0 10px; font-size: 32px; }
+    .hero p { margin: 0; opacity: .9; }
+
+    .container { max-width: 1200px; margin: auto; padding: 24px 16px; }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .filters input, .filters select {
+      background: white;
+      border: 1px solid #dce4ec;
+      border-radius: 9px;
+      padding: 12px;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 18px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 3px 15px #0000000b;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gallery {
+      position: relative;
+      height: 220px;
+      background: #edf2f7;
+      overflow: hidden;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: pointer;
+    }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: #ffffffd9;
+      color: #123b60;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      font-size: 22px;
+    }
+
+    .gallery-arrow.prev { right: 8px; }
+    .gallery-arrow.next { left: 8px; }
+
+    .dots {
+      position: absolute;
+      bottom: 9px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffffffa8;
+      border: 1px solid #777;
+      padding: 0;
+    }
+
+    .dot.active { background: var(--blue); }
+
+    .product-info {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-info h3 { margin: 0 0 7px; font-size: 18px; }
+    .category { color: #718096; font-size: 13px; margin-bottom: 8px; }
+    .description { font-size: 13px; color: #657487; line-height: 1.6; }
+    .price { color: var(--blue); font-weight: bold; font-size: 19px; margin: 10px 0; }
+
+    .quantity {
+      width: 75px;
+      padding: 8px;
+      border: 1px solid #dce4ec;
+      border-radius: 8px;
+      margin-bottom: 9px;
+    }
+
+    .product-info .btn { width: 100%; margin-top: auto; }
+    .empty { text-align: center; padding: 40px; color: #718096; }
+    .section-title { margin: 5px 0 20px; }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0009;
+      z-index: 30;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      overflow-y: auto;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .modal h2 { margin-top: 0; }
+
+    .modal input, .modal textarea, .modal select {
+      width: 100%;
+      padding: 11px;
+      margin: 6px 0 12px;
+      border: 1px solid #dce4ec;
+      border-radius: 8px;
+    }
+
+    .modal textarea { min-height: 75px; resize: vertical; }
+    .modal-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .close {
+      float: left;
+      border: 0;
+      background: transparent;
+      font-size: 25px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+    }
+
+    .cart-item small { display: block; color: #718096; margin-top: 5px; }
+
+    .cart-controls { display: flex; align-items: center; gap: 7px; }
+
+    .cart-controls button {
+      border: 0;
+      border-radius: 6px;
+      padding: 5px 10px;
+      background: #e6eef6;
+    }
+
+    .admin-product {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .admin-product-actions { display: flex; gap: 6px; }
+    .detail-gallery { height: 300px; }
+    .detail-gallery img { cursor: default; }
+    .hint { font-size: 12px; color: #718096; }
+    footer { text-align: center; padding: 25px; color: #718096; }
+
+    @media(max-width: 500px) {
+      .hero h1 { font-size: 25px; }
+      .gallery { height: 190px; }
+      .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .product-info { padding: 10px; }
+      .product-info h3 { font-size: 15px; }
+      .price { font-size: 16px; }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
- <div class="top">
-  <div class="logo">DELICE<small>QUALITY • TASTE • STYLE</small></div>
-  <div class="actions">
-   <button class="secondary" onclick="openCart()">🛒 السلة <span id="cartCount">0</span></button>
-   <button class="primary" onclick="openLogin()">دخول الإدارة</button>
+  <div class="logo">DELICE</div>
+  <div class="header-actions">
+    <button class="btn secondary" onclick="openCart()">
+      🛒 السلة (<span id="cartCount">0</span>)
+    </button>
+    <button class="btn" onclick="openAdmin()">لوحة التحكم</button>
   </div>
- </div>
 </header>
 
 <section class="hero">
- <div>
-  <h1>اكتشف عالم DELICE</h1>
-  <p>منتجات مختارة بعناية، جودة تستحقها وتجربة تسوق سهلة ومميزة.</p>
-  <button style="background:white;color:#07539b;font-weight:bold" onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})">تسوق الآن ←</button>
- </div>
- <div class="hero-mark">DELICE</div>
+  <h1>مرحباً بكم في DELICE</h1>
+  <p>اكتشفوا منتجاتنا وتسوقوا بسهولة</p>
 </section>
 
-<main id="productsSection">
- <div class="section-head">
-  <h2>تسوق منتجاتنا</h2>
-  <input class="search" id="search" placeholder="ابحث عن منتج..." oninput="renderProducts()">
- </div>
- <div class="categories" id="categories"></div>
- <div class="products" id="products">
-  <div class="empty">جارٍ تحميل المنتجات...</div>
- </div>
+<main class="container">
+  <div class="filters">
+    <input id="searchInput" placeholder="ابحث عن منتج..." oninput="renderProducts()">
+    <select id="categoryFilter" onchange="renderProducts()">
+      <option value="">جميع التصنيفات</option>
+    </select>
+  </div>
+
+  <h2 class="section-title">منتجاتنا</h2>
+
+  <div id="products" class="products">
+    <div class="empty">جارٍ تحميل المنتجات...</div>
+  </div>
 </main>
 
-<footer>DELICE © 2026 — جميع الحقوق محفوظة</footer>
+<footer>© DELICE - جميع الحقوق محفوظة</footer>
 
-<!-- تسجيل الدخول -->
-<div class="overlay" id="loginModal">
- <div class="modal">
-  <button class="close" onclick="closeModal('loginModal')">✕</button>
-  <h2>دخول الإدارة</h2>
-  <div class="field"><label>البريد الإلكتروني</label><input id="email" type="email"></div>
-  <div class="field"><label>كلمة المرور</label><input id="password" type="password"></div>
-  <button class="primary" style="width:100%" onclick="login()">تسجيل الدخول</button>
-  <p id="loginMessage"></p>
- </div>
+<div class="overlay" id="detailOverlay" onclick="overlayClose(event,'detailOverlay')">
+  <div class="modal">
+    <button class="close" onclick="closeModal('detailOverlay')">×</button>
+    <div id="detailContent"></div>
+  </div>
 </div>
 
-<!-- لوحة الإدارة -->
-<div class="overlay" id="adminModal">
- <div class="modal">
-  <button class="close" onclick="closeModal('adminModal')">✕</button>
-  <h2>لوحة تحكم DELICE</h2>
-  <div class="admin-box">
-   <button class="primary" onclick="openProductForm()">＋ إضافة منتج جديد</button>
-   <button class="secondary" onclick="logout()">تسجيل الخروج</button>
+<div class="overlay" id="cartOverlay" onclick="overlayClose(event,'cartOverlay')">
+  <div class="modal">
+    <button class="close" onclick="closeModal('cartOverlay')">×</button>
+    <h2>سلة المشتريات</h2>
+    <div id="cartItems"></div>
+    <h3 id="cartTotal">المجموع: 0</h3>
+    <hr>
+    <h3>بيانات الطلب</h3>
+    <input id="customerName" placeholder="الاسم">
+    <input id="customerPhone" placeholder="رقم الهاتف" inputmode="tel">
+    <textarea id="customerAddress" placeholder="العنوان"></textarea>
+    <button class="btn" style="width:100%" onclick="checkout()">إرسال الطلب عبر واتساب</button>
   </div>
-  <div id="adminProducts"></div>
- </div>
 </div>
 
-<!-- إضافة وتعديل المنتجات -->
-<div class="overlay" id="productModal">
- <div class="modal">
-  <button class="close" onclick="closeModal('productModal')">✕</button>
-  <h2 id="productFormTitle">إضافة منتج</h2>
-  <input type="hidden" id="editId">
-
-  <div class="field">
-   <label>اسم المنتج</label>
-   <input id="pName">
+<div class="overlay" id="loginOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('loginOverlay')">×</button>
+    <h2>تسجيل دخول المسؤول</h2>
+    <input id="adminEmail" type="email" placeholder="البريد الإلكتروني">
+    <input id="adminPassword" type="password" placeholder="كلمة المرور">
+    <button class="btn" onclick="adminLogin()">دخول</button>
+    <p id="loginMessage"></p>
   </div>
-
-  <div class="field">
-   <label>القسم</label>
-   <input id="pCategory">
-  </div>
-
-  <div class="field">
-   <label>السعر</label>
-   <input id="pPrice" type="number" min="0" step="0.01">
-  </div>
-
-  <div class="field">
-   <label>وصف المنتج</label>
-   <textarea id="pDescription"></textarea>
-  </div>
-
-  <div class="field">
-   <label>صور المنتج (يمكن اختيار عدة صور)</label>
-   <input id="pImage" type="file" accept="image/png,image/jpeg,image/webp" multiple>
-   <p class="help-text">
-    يمكنك تحديد أكثر من صورة في نفس الوقت. الحد الأقصى لكل صورة 5 ميغابايت.
-    عند تعديل المنتج ستُضاف الصور الجديدة إلى الصور القديمة.
-   </p>
-  </div>
-
-  <div class="field">
-   <label>الصور الحالية</label>
-   <div id="existingImages" class="current-images"></div>
-  </div>
-
-  <div class="field">
-   <label>
-    <input id="pActive" type="checkbox" checked style="width:auto">
-    عرض المنتج في المتجر
-   </label>
-  </div>
-
-  <button class="primary" style="width:100%" onclick="saveProduct()">حفظ المنتج</button>
-  <p id="saveMessage"></p>
- </div>
 </div>
 
-<!-- تفاصيل المنتج -->
-<div class="overlay" id="detailModal">
- <div class="modal">
-  <button class="close" onclick="closeModal('detailModal')">✕</button>
-  <div id="detailContent"></div>
- </div>
+<div class="overlay" id="adminOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('adminOverlay')">×</button>
+    <h2>لوحة التحكم</h2>
+    <div class="modal-actions">
+      <button class="btn" onclick="newProduct()">إضافة منتج جديد +</button>
+      <button class="btn secondary" onclick="adminLogout()">تسجيل الخروج</button>
+    </div>
+    <div id="adminProducts"></div>
+  </div>
 </div>
 
-<!-- السلة -->
-<div class="overlay" id="cartModal">
- <div class="modal">
-  <button class="close" onclick="closeModal('cartModal')">✕</button>
-  <h2>سلة المشتريات</h2>
-  <div id="cartItems"></div>
-  <h3 id="cartTotal"></h3>
+<div class="overlay" id="productFormOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('productFormOverlay')">×</button>
+    <h2 id="formTitle">إضافة منتج</h2>
 
-  <div class="field"><label>الاسم</label><input id="buyerName" placeholder="اسمك"></div>
-  <div class="field"><label>رقم الهاتف</label><input id="buyerPhone" placeholder="رقم الهاتف"></div>
-  <div class="field"><label>العنوان</label><input id="buyerAddress" placeholder="عنوان التوصيل"></div>
+    <input type="hidden" id="editProductId">
 
-  <button class="primary" style="width:100%" onclick="checkout()">إرسال الطلب عبر واتساب</button>
- </div>
+    <label>اسم المنتج</label>
+    <input id="productName" placeholder="اسم المنتج">
+
+    <label>التصنيف</label>
+    <input id="productCategory" placeholder="مثلاً: شوكولاتة">
+
+    <label>السعر</label>
+    <input id="productPrice" type="number" min="0" step="0.01" placeholder="السعر">
+
+    <label>الوصف</label>
+    <textarea id="productDescription" placeholder="وصف المنتج"></textarea>
+
+    <label>صور المنتج (يمكن اختيار أكثر من صورة)</label>
+    <input id="productImages" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+
+    <p class="hint">الصور الجديدة ستُضاف إلى الصور القديمة عند تعديل المنتج. الحد الأقصى 5MB لكل صورة.</p>
+
+    <div id="existingImages" class="hint"></div>
+
+    <button class="btn" style="width:100%" onclick="saveProduct()">حفظ المنتج</button>
+    <p id="saveMessage"></p>
+  </div>
 </div>
 
 <script>
-const SUPABASE_URL="https://grqceqdhjvfkcndshupu.supabase.co";
-const SUPABASE_KEY="sb_publishable_hESgegG_7QZvZItMRsQfEg_SrE4wPvO";
-const ADMIN_UID="ff1e5b12-7a35-487a-b9f1-be31f8f66347";
-const WHATSAPP_NUMBER="970592841090";
+const SUPABASE_URL = "https://grqceqdhjvfkcndshupu.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hESgegG_7QZvZItMRsQfEg_SrE4wPvO";
+const ADMIN_UID = "ff1e5b12-7a35-487a-b9f1-be31f8f66347";
+const WHATSAPP_NUMBER = "970592841090";
+const TABLE_NAME = "products";
+const BUCKET_NAME = "product-images";
 
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let products=[];
-let selectedCategory="الكل";
-let cart=[];
-let currentUser=null;
+let products = [];
+let cart = [];
+let currentUser = null;
+let editingImages = [];
+let detailImageIndex = 0;
+let detailProductId = null;
 
-/* حفظ رقم الصورة الحالية لكل منتج */
-let galleryIndexes={};
-let detailProductId=null;
-let detailImageIndex=0;
-
-function safe(value){
- return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#39;"
- }[c]));
+function openModal(id) {
+  document.getElementById(id).style.display = "flex";
 }
 
-function money(value){
- return Number(value||0).toLocaleString("en-US",{maximumFractionDigits:2});
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
 }
 
-function closeModal(id){
- document.getElementById(id).style.display="none";
+function overlayClose(event, id) {
+  if (event.target.id === id) closeModal(id);
 }
 
-function showModal(id){
- document.getElementById(id).style.display="flex";
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[ch]);
 }
 
-function openLogin(){
- showModal("loginModal");
+function money(value) {
+  return Number(value || 0).toLocaleString("en-US", {
+    maximumFractionDigits: 2
+  });
 }
 
-function openCart(){
- renderCart();
- showModal("cartModal");
+function getProductImages(product) {
+  let list = Array.isArray(product.images) ? product.images : [];
+
+  if (product.image_url && !list.includes(product.image_url)) {
+    list = [product.image_url, ...list];
+  }
+
+  return [...new Set(list.filter(Boolean))];
 }
 
-/* الحصول على صور المنتج مع دعم المنتجات القديمة */
-function getProductImages(product){
- let images=Array.isArray(product.images)?product.images:[];
- images=images.filter(url=>typeof url==="string"&&url.trim());
+function productGalleryHTML(product) {
+  const images = getProductImages(product);
+  const first = images[0] || "";
 
- if(product.image_url&&!images.includes(product.image_url)){
-  images.unshift(product.image_url);
- }
+  if (!first) {
+    return `<div class="gallery"><div class="empty">لا توجد صورة</div></div>`;
+  }
 
- return [...new Set(images)];
+  return `
+    <div class="gallery" id="gallery-${product.id}">
+      <img src="${escapeHTML(first)}" alt="${escapeHTML(product.name)}"
+        onclick="openDetail('${product.id}')">
+
+      ${images.length > 1 ? `
+        <button class="gallery-arrow prev"
+          onclick="changeProductImage(event,'${product.id}',-1)">›</button>
+
+        <button class="gallery-arrow next"
+          onclick="changeProductImage(event,'${product.id}',1)">‹</button>
+
+        <div class="dots">
+          ${images.map((_,i) => `
+            <button class="dot ${i === 0 ? "active" : ""}"
+              onclick="setProductImage(event,'${product.id}',${i})"></button>
+          `).join("")}
+        </div>` : ""}
+    </div>`;
 }
 
-/* تحميل المنتجات */
-async function loadProducts(){
- const {data,error}=await db
-  .from("products")
-  .select("*")
-  .eq("is_active",true)
-  .order("created_at",{ascending:false});
+function setProductImage(event, productId, index) {
+  event.stopPropagation();
 
- if(error){
-  document.getElementById("products").innerHTML=
-   '<div class="empty">تعذر تحميل المنتجات.</div>';
-  return;
- }
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
 
- products=data||[];
+  const images = getProductImages(product);
+  if (!images.length) return;
 
- renderCategories();
- renderProducts();
+  index = (index + images.length) % images.length;
+
+  const gallery = document.getElementById(`gallery-${productId}`);
+  if (!gallery) return;
+
+  gallery.querySelector("img").src = images[index];
+
+  gallery.querySelectorAll(".dot").forEach((dot, i) => {
+    dot.classList.toggle("active", i === index);
+  });
 }
 
-/* الأقسام */
-function renderCategories(){
- const cats=["الكل",...new Set(products.map(p=>p.category).filter(Boolean))];
+function changeProductImage(event, productId, direction) {
+  event.stopPropagation();
 
- document.getElementById("categories").innerHTML=cats.map(c=>
-  `<button class="cat ${selectedCategory===c?"active":""}"
-   onclick="selectCategory('${safe(c).replace(/'/g,"\\'")}')">
-   ${safe(c)}
-  </button>`
- ).join("");
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  const images = getProductImages(product);
+  const gallery = document.getElementById(`gallery-${productId}`);
+
+  if (!gallery || images.length < 2) return;
+
+  const current = images.indexOf(gallery.querySelector("img").src);
+  setProductImage(event, productId, current + direction);
 }
 
-function selectCategory(c){
- selectedCategory=c;
- renderCategories();
- renderProducts();
+async function loadProducts() {
+  const { data, error } = await db
+    .from(TABLE_NAME)
+    .select("*")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    document.getElementById("products").innerHTML =
+      `<div class="empty">تعذر تحميل المنتجات: ${escapeHTML(error.message)}</div>`;
+    return;
+  }
+
+  products = data || [];
+  updateCategories();
+  renderProducts();
 }
 
-/* عرض الصور في بطاقة المنتج */
-function productGalleryHTML(product){
- const images=getProductImages(product);
- const index=galleryIndexes[product.id]||0;
- const current=images[index]||images[0];
+function updateCategories() {
+  const select = document.getElementById("categoryFilter");
+  const selected = select.value;
 
- if(!current){
-  return `<div class="photo"><span>DELICE</span></div>`;
- }
+  const categories = [...new Set(products.map(p => p.category).filter(Boolean))];
 
- return `
- <div class="photo">
-  <img src="${safe(current)}" alt="${safe(product.name)}">
+  select.innerHTML = `<option value="">جميع التصنيفات</option>` +
+    categories.map(c =>
+      `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`
+    ).join("");
 
-  ${images.length>1?`
-   <button class="gallery-arrow right"
-    onclick="changeProductImage('${product.id}',1)">›</button>
-
-   <button class="gallery-arrow left"
-    onclick="changeProductImage('${product.id}',-1)">‹</button>
-
-   <div class="photo-count">${index+1} / ${images.length}</div>
-
-   <div class="gallery-dots">
-    ${images.map((img,i)=>`
-     <button class="gallery-dot ${i===index?"active":""}"
-      onclick="setProductImage('${product.id}',${i})"></button>
-    `).join("")}
-   </div>
-  `:""}
- </div>`;
+  select.value = categories.includes(selected) ? selected : "";
 }
 
-/* التنقل بين صور المنتج */
-function changeProductImage(id,direction){
- const product=products.find(p=>p.id===id);
- if(!product)return;
+function renderProducts() {
+  const search = document.getElementById("searchInput").value.trim().toLowerCase();
+  const category = document.getElementById("categoryFilter").value;
 
- const images=getProductImages(product);
- if(images.length<2)return;
+  const filtered = products.filter(p => {
+    const matchesSearch =
+      String(p.name || "").toLowerCase().includes(search) ||
+      String(p.description || "").toLowerCase().includes(search);
 
- let index=galleryIndexes[id]||0;
- index=(index+direction+images.length)%images.length;
+    return matchesSearch && (!category || p.category === category);
+  });
 
- galleryIndexes[id]=index;
- renderProducts();
+  const container = document.getElementById("products");
+
+  if (!filtered.length) {
+    container.innerHTML = `<div class="empty">لا توجد منتجات حالياً</div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => `
+    <article class="product">
+      ${productGalleryHTML(p)}
+
+      <div class="product-info">
+        <h3>${escapeHTML(p.name)}</h3>
+        <div class="category">${escapeHTML(p.category || "")}</div>
+        <div class="description">${escapeHTML(p.description || "")}</div>
+        <div class="price">${money(p.price)}</div>
+
+        <label class="hint">الكمية</label>
+        <input class="quantity" id="qty-${p.id}" type="number" min="1" value="1">
+
+        <button class="btn" onclick="addToCart('${p.id}')">إضافة إلى السلة</button>
+      </div>
+    </article>
+  `).join("");
 }
 
-function setProductImage(id,index){
- galleryIndexes[id]=index;
- renderProducts();
-}
+function openDetail(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
 
-/* عرض المنتجات */
-function renderProducts(){
- const search=document.getElementById("search").value.trim().toLowerCase();
+  const images = getProductImages(product);
+  detailImageIndex = 0;
+  detailProductId = productId;
 
- const filtered=products.filter(p=>
-  (selectedCategory==="الكل"||p.category===selectedCategory)&&
-  (
-   String(p.name||"").toLowerCase().includes(search)||
-   String(p.description||"").toLowerCase().includes(search)
-  )
- );
+  document.getElementById("detailContent").innerHTML = `
+    <h2>${escapeHTML(product.name)}</h2>
 
- const area=document.getElementById("products");
+    <div class="gallery detail-gallery" id="detailGallery">
+      ${images.length
+        ? `<img id="detailImage" src="${escapeHTML(images[0])}">`
+        : `<div class="empty">لا توجد صورة</div>`}
 
- if(!filtered.length){
-  area.innerHTML='<div class="empty">لا توجد منتجات في هذا القسم حالياً.</div>';
-  return;
- }
+      ${images.length > 1 ? `
+        <button class="gallery-arrow prev" onclick="changeDetailImage(-1)">›</button>
+        <button class="gallery-arrow next" onclick="changeDetailImage(1)">‹</button>
 
- area.innerHTML=filtered.map(p=>`
-  <article class="card">
-
-   ${productGalleryHTML(p)}
-
-   <div class="info">
-    <h3>${safe(p.name)}</h3>
-
-    <div class="desc">
-     ${safe(p.description||p.category||"")}
+        <div class="dots">
+          ${images.map((_,i) => `
+            <button class="dot ${i === 0 ? "active" : ""}"
+              onclick="setDetailImage(${i})"></button>
+          `).join("")}
+        </div>` : ""}
     </div>
 
-    <div class="price">${money(p.price)}</div>
+    <p>${escapeHTML(product.description || "")}</p>
+    <h3 class="price">${money(product.price)}</h3>
 
-    <div class="quantity-control">
-     <label>الكمية:</label>
-     <input type="number" id="qty-${p.id}" value="1" min="1" step="1">
+    <button class="btn" onclick="addToCart('${product.id}');closeModal('detailOverlay')">
+      إضافة إلى السلة
+    </button>
+  `;
+
+  openModal("detailOverlay");
+}
+
+function setDetailImage(index) {
+  const product = products.find(p => p.id === detailProductId);
+  if (!product) return;
+
+  const images = getProductImages(product);
+  if (!images.length) return;
+
+  detailImageIndex = (index + images.length) % images.length;
+
+  document.getElementById("detailImage").src = images[detailImageIndex];
+
+  document.querySelectorAll("#detailGallery .dot").forEach((dot, i) => {
+    dot.classList.toggle("active", i === detailImageIndex);
+  });
+}
+
+function changeDetailImage(direction) {
+  setDetailImage(detailImageIndex + direction);
+}
+
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  const input = document.getElementById(`qty-${productId}`);
+  const quantity = Math.max(1, parseInt(input?.value || "1", 10));
+
+  const existing = cart.find(item => item.id === productId);
+
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      quantity
+    });
+  }
+
+  updateCartCount();
+  alert("تمت إضافة المنتج إلى السلة");
+}
+
+function updateCartCount() {
+  document.getElementById("cartCount").textContent =
+    cart.reduce((sum, item) => sum + item.quantity, 0);
+}
+
+function openCart() {
+  renderCart();
+  openModal("cartOverlay");
+}
+
+function renderCart() {
+  const container = document.getElementById("cartItems");
+
+  if (!cart.length) {
+    container.innerHTML = `<div class="empty">السلة فارغة</div>`;
+    document.getElementById("cartTotal").textContent = "المجموع: 0";
+    return;
+  }
+
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div>
+        <strong>${escapeHTML(item.name)}</strong>
+        <small>${money(item.price)} × ${item.quantity}</small>
+      </div>
+
+      <div class="cart-controls">
+        <button onclick="changeCartQuantity('${item.id}',1)">+</button>
+        <strong>${item.quantity}</strong>
+        <button onclick="changeCartQuantity('${item.id}',-1)">−</button>
+        <button onclick="removeFromCart('${item.id}')">✕</button>
+      </div>
     </div>
+  `).join("");
 
-    <div class="card-buttons">
-     <button class="secondary" onclick="showDetails('${p.id}')">
-      التفاصيل
-     </button>
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-     <button class="primary"
-      onclick="addToCart('${p.id}',document.getElementById('qty-${p.id}').value)">
-      أضف للسلة
-     </button>
-    </div>
-   </div>
-  </article>
- `).join("");
+  document.getElementById("cartTotal").textContent = `المجموع: ${money(total)}`;
 }
 
-/* معرض الصور في صفحة التفاصيل */
-function renderDetailGallery(){
- const product=products.find(p=>p.id===detailProductId);
- if(!product)return;
+function changeCartQuantity(id, amount) {
+  const item = cart.find(p => p.id === id);
+  if (!item) return;
 
- const images=getProductImages(product);
- if(!images.length)return;
+  item.quantity += amount;
 
- if(detailImageIndex>=images.length)detailImageIndex=0;
+  if (item.quantity <= 0) {
+    cart = cart.filter(p => p.id !== id);
+  }
 
- const image=images[detailImageIndex];
-
- document.getElementById("detailGallery").innerHTML=`
-  <img src="${safe(image)}" alt="${safe(product.name)}">
-
-  ${images.length>1?`
-   <button class="gallery-arrow right"
-    onclick="changeDetailImage(-1)">›</button>
-
-   <button class="gallery-arrow left"
-    onclick="changeDetailImage(1)">‹</button>
-
-   <div class="photo-count">
-    ${detailImageIndex+1} / ${images.length}
-   </div>
-
-   <div class="gallery-dots">
-    ${images.map((img,i)=>`
-     <button class="gallery-dot ${i===detailImageIndex?"active":""}"
-      onclick="setDetailImage(${i})"></button>
-    `).join("")}
-   </div>
-  `:""}
- `;
+  updateCartCount();
+  renderCart();
 }
 
-function changeDetailImage(direction){
- const product=products.find(p=>p.id===detailProductId);
- if(!product)return;
-
- const images=getProductImages(product);
- detailImageIndex=(detailImageIndex+direction+images.length)%images.length;
-
- renderDetailGallery();
+function removeFromCart(id) {
+  cart = cart.filter(p => p.id !== id);
+  updateCartCount();
+  renderCart();
 }
 
-function setDetailImage(index){
- detailImageIndex=index;
- renderDetailGallery();
+function checkout() {
+  if (!cart.length) {
+    alert("السلة فارغة");
+    return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("customerPhone").value.trim();
+  const address = document.getElementById("customerAddress").value.trim();
+
+  if (!name || !phone || !address) {
+    alert("يرجى إدخال الاسم ورقم الهاتف والعنوان");
+    return;
+  }
+
+  let message = `طلب جديد من متجر DELICE%0A`;
+  message += `الاسم: ${encodeURIComponent(name)}%0A`;
+  message += `الهاتف: ${encodeURIComponent(phone)}%0A`;
+  message += `العنوان: ${encodeURIComponent(address)}%0A%0A`;
+  message += `المنتجات:%0A`;
+
+  cart.forEach(item => {
+    message += `- ${encodeURIComponent(item.name)} | الكمية: ${item.quantity} | السعر: ${money(item.price * item.quantity)}%0A`;
+  });
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  message += `%0Aالمجموع: ${money(total)}`;
+
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
 }
 
-/* تفاصيل المنتج */
-function showDetails(id){
- const p=products.find(x=>x.id===id);
- if(!p)return;
-
- const images=getProductImages(p);
-
- detailProductId=id;
- detailImageIndex=0;
-
- document.getElementById("detailContent").innerHTML=`
-  ${images.length?`
-   <div class="detail-gallery" id="detailGallery"></div>
-  `:""}
-
-  <h2>${safe(p.name)}</h2>
-
-  <p>${safe(p.description||"")}</p>
-
-  <h3 style="color:#1264b5">${money(p.price)}</h3>
-
-  <div class="quantity-control">
-   <label>الكمية:</label>
-   <input type="number" id="detailQty" value="1" min="1">
-  </div>
-
-  <button class="primary"
-   onclick="addToCart('${p.id}',document.getElementById('detailQty').value);closeModal('detailModal')">
-   أضف إلى السلة
-  </button>
- `;
-
- if(images.length){
-  renderDetailGallery();
- }
-
- showModal("detailModal");
+function openAdmin() {
+  if (currentUser && currentUser.id === ADMIN_UID) {
+    renderAdminProducts();
+    openModal("adminOverlay");
+  } else {
+    openModal("loginOverlay");
+  }
 }
 
-/* السلة */
-function addToCart(id,quantity=1){
- const p=products.find(x=>x.id===id);
- if(!p)return;
+async function adminLogin() {
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value;
+  const message = document.getElementById("loginMessage");
 
- quantity=Math.floor(Number(quantity));
+  message.textContent = "جارٍ تسجيل الدخول...";
 
- if(!Number.isFinite(quantity)||quantity<1){
-  alert("يرجى اختيار كمية صحيحة");
-  return;
- }
+  const { data, error } = await db.auth.signInWithPassword({ email, password });
 
- const item=cart.find(x=>x.id===id);
+  if (error) {
+    message.textContent = "خطأ: " + error.message;
+    return;
+  }
 
- if(item)item.qty+=quantity;
- else cart.push({
-  id:p.id,
-  name:p.name,
-  price:Number(p.price),
-  qty:quantity
- });
+  if (data.user.id !== ADMIN_UID) {
+    await db.auth.signOut();
+    currentUser = null;
+    message.textContent = "هذا الحساب غير مخول للدخول إلى لوحة التحكم";
+    return;
+  }
 
- updateCartCount();
-
- alert("تمت إضافة "+quantity+" من "+p.name+" إلى السلة");
+  currentUser = data.user;
+  closeModal("loginOverlay");
+  renderAdminProducts();
+  openModal("adminOverlay");
 }
 
-function changeCartQty(id,amount){
- const item=cart.find(x=>x.id===id);
- if(!item)return;
-
- item.qty+=amount;
-
- if(item.qty<=0){
-  cart=cart.filter(x=>x.id!==id);
- }
-
- updateCartCount();
- renderCart();
-}
-
-function updateCartCount(){
- document.getElementById("cartCount").textContent=
-  cart.reduce((s,x)=>s+x.qty,0);
-}
-
-function renderCart(){
- const box=document.getElementById("cartItems");
-
- if(!cart.length){
-  box.innerHTML='<div class="empty">السلة فارغة حالياً</div>';
-  document.getElementById("cartTotal").textContent="";
-  return;
- }
-
- box.innerHTML=cart.map(x=>`
-  <div class="cart-line">
-   <div>
-    <strong>${safe(x.name)}</strong>
-    <div style="font-size:12px;color:#1264b5">
-     ${money(x.price)} للقطعة
-    </div>
-   </div>
-
-   <div class="qty-buttons">
-    <button onclick="changeCartQty('${x.id}',-1)">−</button>
-    <strong>${x.qty}</strong>
-    <button onclick="changeCartQty('${x.id}',1)">+</button>
-   </div>
-
-   <strong>${money(x.price*x.qty)}</strong>
-  </div>
- `).join("");
-
- document.getElementById("cartTotal").textContent=
-  "الإجمالي: "+money(cart.reduce((s,x)=>s+x.price*x.qty,0));
-}
-
-/* إرسال الطلب عبر واتساب */
-function checkout(){
- if(!cart.length){
-  alert("السلة فارغة");
-  return;
- }
-
- const name=document.getElementById("buyerName").value.trim();
- const phone=document.getElementById("buyerPhone").value.trim();
- const address=document.getElementById("buyerAddress").value.trim();
-
- if(!name||!phone||!address){
-  alert("يرجى إدخال الاسم ورقم الهاتف والعنوان");
-  return;
- }
-
- let msg="طلب جديد من متجر DELICE\n";
- msg+="الاسم: "+name+"\nالهاتف: "+phone+"\nالعنوان: "+address+"\n\n";
-
- cart.forEach(x=>{
-  msg+=x.name+" × "+x.qty+" = "+money(x.price*x.qty)+"\n";
- });
-
- msg+="\nالإجمالي: "+money(cart.reduce((s,x)=>s+x.price*x.qty,0));
-
- window.open(
-  "https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),
-  "_blank"
- );
-}
-
-/* تسجيل الدخول */
-async function login(){
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
- const msg=document.getElementById("loginMessage");
-
- msg.textContent="جارٍ تسجيل الدخول...";
-
- const {data,error}=await db.auth.signInWithPassword({email,password});
-
- if(error){
-  msg.textContent="تعذر تسجيل الدخول: "+error.message;
-  return;
- }
-
- if(data.user.id!==ADMIN_UID){
+async function adminLogout() {
   await db.auth.signOut();
-  msg.textContent="هذا الحساب غير مخوّل لإدارة المتجر.";
-  return;
- }
-
- currentUser=data.user;
-
- closeModal("loginModal");
-
- await loadAdminProducts();
-
- showModal("adminModal");
+  currentUser = null;
+  closeModal("adminOverlay");
+  alert("تم تسجيل الخروج");
 }
 
-/* تسجيل الخروج */
-async function logout(){
- await db.auth.signOut();
- currentUser=null;
- closeModal("adminModal");
+function renderAdminProducts() {
+  const container = document.getElementById("adminProducts");
+
+  if (!products.length) {
+    container.innerHTML = `<div class="empty">لا توجد منتجات</div>`;
+    return;
+  }
+
+  container.innerHTML = products.map(p => `
+    <div class="admin-product">
+      <div>
+        <strong>${escapeHTML(p.name)}</strong>
+        <small>${money(p.price)} - ${getProductImages(p).length} صورة</small>
+      </div>
+
+      <div class="admin-product-actions">
+        <button class="btn secondary" onclick="editProduct('${p.id}')">تعديل</button>
+        <button class="btn danger" onclick="deleteProduct('${p.id}')">حذف</button>
+      </div>
+    </div>
+  `).join("");
 }
 
-/* تحميل منتجات لوحة الإدارة */
-async function loadAdminProducts(){
- const {data,error}=await db
-  .from("products")
-  .select("*")
-  .order("created_at",{ascending:false});
-
- if(error){
-  alert("تعذر تحميل قائمة الإدارة: "+error.message);
-  return;
- }
-
- document.getElementById("adminProducts").innerHTML=(data||[]).map(p=>`
-  <div class="admin-row">
-   <span>
-    ${safe(p.name)} — ${money(p.price)}
-    ${p.is_active?"":"(مخفي)"}
-   </span>
-
-   <span>
-    <button class="secondary" onclick="editProduct('${p.id}')">
-     تعديل
-    </button>
-
-    <button style="background:#ffe9e9;color:#a22"
-     onclick="deleteProduct('${p.id}')">
-     حذف
-    </button>
-   </span>
-  </div>
- `).join("")||"لا توجد منتجات.";
+function newProduct() {
+  clearProductForm();
+  document.getElementById("formTitle").textContent = "إضافة منتج جديد";
+  openModal("productFormOverlay");
 }
 
-/* عرض الصور الحالية في نموذج التعديل */
-function showExistingImages(images){
- const box=document.getElementById("existingImages");
-
- if(!images.length){
-  box.innerHTML='<span class="help-text">لا توجد صور محفوظة.</span>';
-  return;
- }
-
- box.innerHTML=images.map(url=>`
-  <img src="${safe(url)}" alt="صورة المنتج">
- `).join("");
+function clearProductForm() {
+  document.getElementById("editProductId").value = "";
+  document.getElementById("productName").value = "";
+  document.getElementById("productCategory").value = "";
+  document.getElementById("productPrice").value = "";
+  document.getElementById("productDescription").value = "";
+  document.getElementById("productImages").value = "";
+  document.getElementById("existingImages").textContent = "";
+  document.getElementById("saveMessage").textContent = "";
+  editingImages = [];
 }
 
-/* نموذج إضافة منتج */
-function openProductForm(){
- document.getElementById("productFormTitle").textContent="إضافة منتج جديد";
+function editProduct(id) {
+  const p = products.find(item => item.id === id);
+  if (!p) return;
 
- document.getElementById("editId").value="";
+  document.getElementById("editProductId").value = p.id;
+  document.getElementById("productName").value = p.name || "";
+  document.getElementById("productCategory").value = p.category || "";
+  document.getElementById("productPrice").value = p.price || "";
+  document.getElementById("productDescription").value = p.description || "";
+  document.getElementById("productImages").value = "";
 
- ["pName","pCategory","pPrice","pDescription"].forEach(id=>{
-  document.getElementById(id).value="";
- });
+  editingImages = getProductImages(p);
 
- document.getElementById("pImage").value="";
- document.getElementById("pActive").checked=true;
+  document.getElementById("existingImages").textContent =
+    `عدد الصور الحالية: ${editingImages.length}. الصور الجديدة ستُضاف إليها.`;
 
- document.getElementById("saveMessage").textContent="";
+  document.getElementById("saveMessage").textContent = "";
+  document.getElementById("formTitle").textContent = "تعديل المنتج";
 
- showExistingImages([]);
-
- showModal("productModal");
+  openModal("productFormOverlay");
 }
 
-/* تعديل منتج */
-async function editProduct(id){
- const {data,error}=await db
-  .from("products")
-  .select("*")
-  .eq("id",id)
-  .single();
+async function uploadProductImages(files) {
+  const uploadedUrls = [];
 
- if(error){
-  alert(error.message);
-  return;
- }
+  for (const file of files) {
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      throw new Error("نوع الصورة غير مدعوم. استخدم JPG أو PNG أو WEBP");
+    }
 
- document.getElementById("productFormTitle").textContent="تعديل المنتج";
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error(`حجم الصورة ${file.name} أكبر من 5MB`);
+    }
 
- document.getElementById("editId").value=data.id;
- document.getElementById("pName").value=data.name||"";
- document.getElementById("pCategory").value=data.category||"";
- document.getElementById("pPrice").value=data.price||"";
- document.getElementById("pDescription").value=data.description||"";
- document.getElementById("pImage").value="";
- document.getElementById("pActive").checked=data.is_active!==false;
+    const extension = file.name.split(".").pop().toLowerCase();
+    const fileName = `${crypto.randomUUID()}.${extension}`;
+    const filePath = `products/${fileName}`;
 
- document.getElementById("saveMessage").textContent="";
+    const { error } = await db.storage
+      .from(BUCKET_NAME)
+      .upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: file.type
+      });
 
- showExistingImages(getProductImages(data));
+    if (error) throw error;
 
- showModal("productModal");
+    const { data } = db.storage.from(BUCKET_NAME).getPublicUrl(filePath);
+    uploadedUrls.push(data.publicUrl);
+  }
+
+  return uploadedUrls;
 }
 
-/* رفع الصور إلى Supabase */
-async function uploadProductImages(files,msg){
- const uploadedUrls=[];
-
- for(let i=0;i<files.length;i++){
-  const file=files[i];
-
-  if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
-   throw new Error("الصورة "+file.name+" ليست بصيغة JPG أو PNG أو WEBP.");
+async function saveProduct() {
+  if (!currentUser || currentUser.id !== ADMIN_UID) {
+    alert("يجب تسجيل الدخول كمسؤول أولاً");
+    return;
   }
 
-  if(file.size>5*1024*1024){
-   throw new Error("حجم الصورة "+file.name+" أكبر من 5 ميغابايت.");
+  const id = document.getElementById("editProductId").value;
+  const name = document.getElementById("productName").value.trim();
+  const category = document.getElementById("productCategory").value.trim();
+  const price = Number(document.getElementById("productPrice").value);
+  const description = document.getElementById("productDescription").value.trim();
+  const files = Array.from(document.getElementById("productImages").files || []);
+  const message = document.getElementById("saveMessage");
+
+  if (!name || !category || !Number.isFinite(price) || price < 0) {
+    message.textContent = "يرجى إدخال اسم المنتج والتصنيف والسعر بشكل صحيح";
+    return;
   }
 
-  msg.textContent="جارٍ رفع الصورة "+(i+1)+" من "+files.length+"...";
+  message.textContent = "جارٍ حفظ المنتج ورفع الصور...";
 
-  const ext=file.name.split(".").pop().toLowerCase();
+  try {
+    const newUrls = await uploadProductImages(files);
+    const allImages = [...new Set([...editingImages, ...newUrls])];
 
-  const path=Date.now()+"-"+Math.random().toString(36).slice(2)+"."+ext;
+    const productData = {
+      name,
+      category,
+      price,
+      description,
+      images: allImages,
+      image_url: allImages[0] || null,
+      is_active: true
+    };
 
-  const {error:uploadError}=await db
-   .storage
-   .from("product-images")
-   .upload(path,file,{upsert:false});
+    let result;
 
-  if(uploadError){
-   throw new Error("فشل رفع الصورة "+file.name+": "+uploadError.message);
+    if (id) {
+      result = await db.from(TABLE_NAME).update(productData).eq("id", id);
+    } else {
+      result = await db.from(TABLE_NAME).insert(productData);
+    }
+
+    if (result.error) throw result.error;
+
+    message.textContent = "تم حفظ المنتج بنجاح";
+
+    await loadProducts();
+    renderAdminProducts();
+
+    setTimeout(() => {
+      closeModal("productFormOverlay");
+      clearProductForm();
+    }, 800);
+
+  } catch (error) {
+    message.textContent = "تعذر الحفظ: " + error.message;
   }
-
-  const publicUrl=db
-   .storage
-   .from("product-images")
-   .getPublicUrl(path)
-   .data.publicUrl;
-
-  uploadedUrls.push(publicUrl);
- }
-
- return uploadedUrls;
 }
 
-/* حفظ المنتج مع الصور المتعددة */
-async function saveProduct(){
- if(!currentUser||currentUser.id!==ADMIN_UID){
-  alert("غير مخوّل");
-  return;
- }
+async function deleteProduct(id) {
+  if (!currentUser || currentUser.id !== ADMIN_UID) return;
 
- const name=document.getElementById("pName").value.trim();
- const category=document.getElementById("pCategory").value.trim();
- const price=Number(document.getElementById("pPrice").value);
- const description=document.getElementById("pDescription").value.trim();
- const editId=document.getElementById("editId").value;
- const active=document.getElementById("pActive").checked;
+  if (!confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
 
- const files=Array.from(document.getElementById("pImage").files||[]);
- const msg=document.getElementById("saveMessage");
+  const { error } = await db.from(TABLE_NAME).delete().eq("id", id);
 
- if(!name||!category||!Number.isFinite(price)||price<0){
-  msg.textContent="يرجى إدخال الاسم والقسم والسعر بشكل صحيح.";
-  return;
- }
-
- if(!editId&&files.length===0){
-  msg.textContent="يرجى اختيار صورة واحدة على الأقل للمنتج.";
-  return;
- }
-
- msg.textContent="جارٍ تجهيز المنتج...";
-
- try{
-  let oldImages=[];
-  let oldMainImage=null;
-
-  /* عند تعديل منتج، نقرأ صوره القديمة */
-  if(editId){
-   const {data:oldProduct,error:oldError}=await db
-    .from("products")
-    .select("image_url,images")
-    .eq("id",editId)
-    .single();
-
-   if(oldError)throw oldError;
-
-   oldMainImage=oldProduct.image_url||null;
-
-   oldImages=Array.isArray(oldProduct.images)
-    ?oldProduct.images.filter(url=>typeof url==="string")
-    :[];
-
-   if(oldMainImage&&!oldImages.includes(oldMainImage)){
-    oldImages.unshift(oldMainImage);
-   }
+  if (error) {
+    alert("تعذر الحذف: " + error.message);
+    return;
   }
-
-  /* رفع الصور الجديدة */
-  let newImages=[];
-
-  if(files.length){
-   newImages=await uploadProductImages(files,msg);
-  }
-
-  /* دمج الصور القديمة والجديدة */
-  const allImages=[...new Set([...oldImages,...newImages])];
-
-  const record={
-   name,
-   category,
-   price,
-   description,
-   is_active:active,
-   images:allImages
-  };
-
-  /* أول صورة تكون الصورة الرئيسية */
-  if(allImages.length){
-   record.image_url=allImages[0];
-  }
-
-  msg.textContent="جارٍ حفظ بيانات المنتج...";
-
-  let result;
-
-  if(editId){
-   result=await db
-    .from("products")
-    .update(record)
-    .eq("id",editId);
-  }else{
-   result=await db
-    .from("products")
-    .insert(record);
-  }
-
-  if(result.error)throw result.error;
-
-  msg.textContent="تم حفظ المنتج والصور بنجاح.";
 
   await loadProducts();
-  await loadAdminProducts();
-
-  setTimeout(()=>closeModal("productModal"),900);
-
- }catch(error){
-  console.error(error);
-  msg.textContent="تعذر الحفظ: "+(error.message||"حدث خطأ غير متوقع");
- }
+  renderAdminProducts();
+  alert("تم حذف المنتج");
 }
 
-/* حذف المنتج */
-async function deleteProduct(id){
- if(!confirm("هل أنت متأكد من حذف هذا المنتج؟"))return;
+async function checkSession() {
+  const { data } = await db.auth.getSession();
+  const user = data.session?.user;
 
- const {error}=await db
-  .from("products")
-  .delete()
-  .eq("id",id);
-
- if(error){
-  alert("تعذر الحذف: "+error.message);
-  return;
- }
-
- await loadProducts();
- await loadAdminProducts();
+  if (user && user.id === ADMIN_UID) {
+    currentUser = user;
+  } else {
+    currentUser = null;
+  }
 }
 
-/* استعادة جلسة الإدارة */
-db.auth.getSession().then(({data})=>{
- const user=data.session?.user;
-
- if(user?.id===ADMIN_UID){
-  currentUser=user;
- }
-});
-
-/* تشغيل المتجر */
-loadProducts();
+(async function init() {
+  await checkSession();
+  await loadProducts();
+})();
 </script>
 
 </body>
